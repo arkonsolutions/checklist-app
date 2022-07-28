@@ -1,0 +1,22 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <ion-list>
+    <ion-list-header *ngIf="parentTitle as pt">
+      <ion-label>
+        {{ "pageChecklistForm.lblParentElement" | translate: { pt: pt } }}
+      </ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-label position="stacked">{{ "pageChecklistForm.lblTitle" | translate }}</ion-label>
+      <ion-input type="text" formControlName="title"></ion-input>
+      <ion-button fill="outline" slot="end" (click)="onRecognize('title')"><ion-icon name="mic-outline"></ion-icon></ion-button>
+    </ion-item>
+    <div class="validation-errors" *ngIf="!form.controls.title.valid && form.controls.title.dirty">
+      {{ "common.validationRequiredField" | translate }}
+    </div>
+    <ion-item>
+      <ion-label position="stacked">{{ "pageChecklistForm.lblDescription" | translate }}</ion-label>
+      <ion-textarea formControlName="description"></ion-textarea>
+      <ion-button fill="outline" slot="end" (click)="onRecognize('description')"><ion-icon name="mic-outline"></ion-icon></ion-button>
+    </ion-item>
+  </ion-list>
+</form>

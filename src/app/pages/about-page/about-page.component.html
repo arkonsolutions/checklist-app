@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+    </ion-buttons>
+    <ion-title>
+      {{'pageAbout.name' | translate}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <ion-list lines="full">
+    <ion-item>
+      <ion-label>
+        <h2>{{'pageAbout.lblAppVersion' | translate}}</h2>
+      </ion-label>
+      <ion-text color="secondary">
+        <p>{{appVersion$ | async}}</p>
+      </ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h2>{{'pageAbout.lblAuthor' | translate}}</h2>
+      </ion-label>
+      <ion-text color="secondary">
+        <p><a href="mailto:sergey.wereteychenko@gmail.com">{{'pageAbout.lblAuthorName' | translate}}</a></p>
+      </ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h2>{{'pageAbout.lblSite' | translate}}</h2>
+      </ion-label>
+      <ion-text color="secondary">
+        <p><a target="_blank" href="https://www.arkon.solutions/#checklist">arkon.solutions/#checklist</a></p>
+      </ion-text>
+    </ion-item>
+  </ion-list>
+  
+</ion-content>

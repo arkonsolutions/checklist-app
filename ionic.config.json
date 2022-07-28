@@ -1,0 +1,8 @@
+{
+  "name": "checklist-app",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,88 @@
+{
+    "pageChecklist": {
+        "name": "Чеклист",
+        "internal": {
+            "goToParent": "Перейти к родительскому элементу",
+            "goToHome": "Домой",
+            "anywayAsDone": "Выполнено {{childrenDone}} из {{childrenCount}} подзадач.\r\nВсё равно отметить задачу \"{{title}}\" как выполненную?",
+            "anywayAsUndone": "Выполнены все {{childrenDone}} подзадачи.\r\nВсё равно отметить задачу \"{{title}}\" как не выполненную?",
+            "taskIsCompleted": "Задача \"{{title}}\" выполнена.",
+            "taskMustBeCompleted": "Задача \"{{title}}\" ожидает выполнения.",
+            "copyEntryHeader": "Копирование записи",
+            "createChecklist": "Создать чеклист",
+            "createTemplate": "Создать шаблон",
+            "newTemplateCreated": "Создан новый шаблон \"{{title}}\".",
+            "newChecklistCreated": "Создан новый чеклист \"{{title}}\"."
+        },
+        "btnAdd": "Добавить",
+        "btnAddSubtask": "Добавить подзадачу",
+        "btnDetails": "Детали",
+        "btnReplicate": "Копировать",
+        "lblDueDate": "Срок",
+        "lblCompletionDate": "Дата выполнения",
+        "lblCompletedSubtasks": "Выполнено подзадач",
+        "lblCSTcounter": "{{childrenDone}} из {{childrenCount}}",
+        "lblSubtasks": "Подзадачи:",
+        "itmDueDate": "Срок: {{dueDate}}",
+        "itmDoneDate": "Выполнено: {{isDoneDate}}",
+        "itmChildrenCount": "Выполнено подзадач: {{childrenDone}} из {{childrenCount}}"
+    },
+    "pageChecklistForm": {
+        "titleAdd": "Добавить запись",
+        "titleEdit": "Редактировать запись",
+        "lblParentElement": "Родительский элемент: {{pt}}",
+        "lblTitle": "Заголовок",
+        "lblDescription": "Описание"
+    },
+    "pageTemplate": {
+        "name": "Шаблон"
+    },
+    "pageSettings": {
+        "name": "Настройки",
+        "group": {
+            "general": {
+                "name": "Основные",
+                "hideCompletedTasks": "Скрывать выполненные задачи",
+                "recognizeSpeechLanguage": "Язык распонавания речи",
+                "uiLanguage": "Язык интерфейса",
+                "recognitionWhenAdding": "Распознование речи по умолчанию при создании"
+            },
+            "dataMigration": {
+                "name": "Перенос данных",
+                "export": "Экспорт данных",
+                "import": "Импорт данных"
+            }
+        }
+    },
+    "pageAbout": {
+        "name": "О программе",
+        "lblAppVersion": "Версия приложения:",
+        "lblAuthor": "Автор:",
+        "lblAuthorName": "Веретейченко Сергей",
+        "lblSite": "Сайт:"
+    },
+    "common": {
+        "letSelect": "Выберите...",
+        "itemNotFound": "Элемент не найден",
+        "confirmDeleteItem": "Будет удалена запись \"{{title}}\". Подтвердите действие.",
+        "cancel": "Отмена",
+        "delete": "Удалить",
+        "ok": "OK",
+        "yes": "Да",
+        "no": "Нет",
+        "validationRequiredField": "Обязательное поле."
+    },
+    "app": {
+        "recognitionDoNotAvailable": "Распознавание речи недоступно на устройстве.",
+        "recognitionWindowTitle": "Диктуйте...",
+        "errorMessage": "Ошибка: {{message}}",
+        "notifyRecognitionStarted": "Распознование речи: продиктуйте текст в микрофон..."
+    },
+    "sync": {
+        "confirmExport": "Будет создан снимок базы данных и экспортирован в файл json формата. Продолжить?",
+        "confirmShare": "Снимок базы данных успешно создан! Желаете поделиться им?",
+        "share": "Поделиться",
+        "specifyFileLocation": "Укажите расположение файла со снимком данных. Данные их него будут импортированы.",
+        "importSuccsessfuly": "Данные успешно импортированы"
+    }
+}

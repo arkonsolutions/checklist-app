@@ -1,0 +1,109 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">     
+      <ion-button fill="outline" (click)="onAddClick()" [disabled]="isCreateItemSaving$ | async">{{(addTaskButtonKey$ | async) | translate}}<ion-icon *ngIf="isRecognitionWhenAdding$ | async" name="mic-outline"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>
+      {{ (pageTitleKey$ | async) | translate }}
+    </ion-title>
+    <ion-progress-bar *ngIf="busy$ | async" type="indeterminate"></ion-progress-bar>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" *ngIf="(target$ | async) as target">
+  <ion-toolbar color="tertiary" *ngIf="!!target.id">
+    <ion-buttons slot="start">
+      <ion-button (click)="navTo(target.parentId)">
+        <ion-icon name="arrow-up-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="presentParentTree()">
+        <ion-icon name="layers-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="onReplicateTargetClick()" [disabled]="isReplicationProcess$ | async">
+        <ion-icon name="documents-outline"></ion-icon>
+        &nbsp;{{ 'pageChecklist.btnReplicate' | translate }}
+      </ion-button>
+      <ion-button (click)="onEditClick()" *ngIf="!!(target$ | async)?.id" [disabled]="isEditItemSaving$ | async">
+        <ion-icon name="create"></ion-icon>
+      </ion-button>
+      <ion-button (click)="onRemoveClick()" [disabled]="isRemoveItemSaving$ | async">
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
+      <ng-container *ngIf="!(isTemplateMode$ | async)">
+        <ion-button *ngIf="!!config" (click)="toggleIsShowDetails()">
+          <ion-label>{{ 'pageChecklist.btnDetails' | translate }}</ion-label>
+          <ion-icon *ngIf="config.isShowDetails" name="chevron-up-outline"></ion-icon>
+          <ion-icon *ngIf="!config.isShowDetails" name="chevron-down-outline"></ion-icon>
+        </ion-button>
+      </ng-container>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-list lines="full" *ngIf="!!target.id">
+    <ion-item>
+      <ion-label>{{target.title}}</ion-label>
+      <ion-checkbox
+        *ngIf="!target.isTemplate" 
+        [checked]="target.isDone" 
+        (click)="toggleChecked($event, target.id)"
+      ></ion-checkbox>
+    </ion-item>
+    <ng-container *ngIf="!!config && config.isShowDetails">
+      <ion-item *ngIf="target.description as description" color="light">
+        <ion-text>{{description}}</ion-text>
+      </ion-item>
+      <ion-item *ngIf="target.dueDate as dueDate" color="light">
+        <ion-label>{{ 'pageChecklist.lblDueDate' | translate }}</ion-label>
+        <ion-note slot="end">{{dueDate}}</ion-note>
+      </ion-item>
+      <ng-container *ngIf="!target.isTemplate">
+        <ion-item *ngIf="target.isDone" color="light">
+          <ion-label>{{ 'pageChecklist.lblCompletionDate' | translate }}</ion-label>
+          <ion-note slot="end">{{target.isDoneDate| date : dateFormat}}</ion-note>
+        </ion-item>
+        <ion-item *ngIf="target.childrenCount as childrenCount" color="light">
+          <ion-label>{{ 'pageChecklist.lblCompletedSubtasks' | translate }}</ion-label>
+          <ion-note slot="end">{{ 'pageChecklist.lblCSTcounter' | translate: { childrenDone: target.childrenDone, childrenCount: childrenCount } }}</ion-note>
+        </ion-item>
+      </ng-container>
+
+    </ng-container>
+  </ion-list>
+
+  <ng-container *ngIf="(children$ | async) as children">
+    <ion-list lines="full">
+      <ion-list-header *ngIf="!!target.id && children.length > 0">
+        {{ 'pageChecklist.lblSubtasks' | translate }}
+      </ion-list-header>
+      <!-- <ion-item-divider>
+        <ion-label>
+          Подзадачи
+        </ion-label>
+      </ion-item-divider> -->
+      <ion-item class="sub-item" *ngFor="let itm of children; trackBy: trackByMethod">
+        <ion-button (click)="navTo(itm.id)" item-left>
+          <ion-icon name="arrow-forward-circle-outline"></ion-icon>
+        </ion-button>
+        <ion-item lines="none">
+          <ion-label>
+            <h2>{{ itm.title }}</h2>
+            <ng-container *ngIf="!itm.isTemplate">
+              <h4 *ngIf="itm.dueDate as dueDate">{{ 'pageChecklist.itmDueDate' | translate: {dueDate: itm.dueDate | date : dateFormat} }}</h4>
+              <h4 *ngIf="itm.isDone">{{ 'pageChecklist.itmDoneDate' | translate: {isDoneDate: itm.isDoneDate | date : dateFormat} }}</h4>
+              <h5 *ngIf="itm.childrenCount > 0">{{ 'pageChecklist.itmChildrenCount' | translate: {childrenDone: itm.childrenDone, childrenCount: itm.childrenCount } }}</h5>
+            </ng-container>
+          </ion-label>
+          <ion-checkbox item-right 
+            *ngIf="!itm.isTemplate"
+            [checked]="itm.isDone" 
+            (click)="toggleChecked($event, itm.id)"
+          ></ion-checkbox>
+        </ion-item>
+      </ion-item>
+    </ion-list>
+  </ng-container>
+</ion-content>

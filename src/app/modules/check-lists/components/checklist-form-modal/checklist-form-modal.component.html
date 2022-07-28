@@ -1,0 +1,19 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>{{ (isEditMode ? "pageChecklistForm.titleEdit" : "pageChecklistForm.titleAdd") | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button [disabled]="(validChanges$ | async) !== true" (click)="form.onSubmit()">{{ "common.ok" | translate }}</ion-button>
+      <ion-button (click)="onClose()">{{ "common.cancel" | translate }}</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+  <app-checklist-form
+    #form
+    [parentTitle]="parentTitle"
+    [autorunRecognization]="autorunRecognization"
+    [value]="value"
+    (dataChanges)="dataChanges$.next($event)"
+    (validChanges)="validChanges$.next($event)"
+  ></app-checklist-form>
+</ion-content>

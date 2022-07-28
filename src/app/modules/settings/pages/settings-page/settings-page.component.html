@@ -1,0 +1,123 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+    </ion-buttons>
+    <ion-title>
+      {{'pageSettings.name' | translate}}
+    </ion-title>
+    <ion-progress-bar *ngIf="busy$ | async" type="indeterminate"></ion-progress-bar>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <ion-list lines="full">
+    <ion-item-group *ngIf="false">
+      <ion-item-divider>
+        <ion-label>
+          Аккаунт
+        </ion-label>
+      </ion-item-divider>
+      <ion-item>
+        <ion-avatar slot="start">
+          <img src="assets/logos/google.png">
+        </ion-avatar>
+        {{ (googleIdentity$ | async)?.displayName }}&nbsp;
+        <ion-button *ngIf="googleIdentity$ | async as identity; else notSignedIn" (click)="googleSignOut()">Sign out</ion-button>
+        <ng-template #notSignedIn>
+          <ion-button (click)="googleSignIn()">Google Sign in</ion-button>
+        </ng-template>
+      </ion-item>
+    </ion-item-group>
+    <ion-item-group *ngIf="false">
+      <ion-item-divider>
+        <ion-label>
+          Сонхронизация
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-item-sliding *ngFor="let item of (syncProviders$ | async)">
+        <ion-item-options side="start">
+          <ion-item-option (click)="openSyncProviderSettings(item.key)">Настройки</ion-item-option>
+        </ion-item-options>
+
+        <ion-item-options side="end">
+          <ion-item-option (click)="openSyncProviderSettings(item.key)">Настройки</ion-item-option>
+        </ion-item-options>
+    
+        <ion-item>
+          <ion-avatar slot="start">
+            <img src="assets/logos/{{item.key}}.png">
+          </ion-avatar>
+          <ion-label>
+            <h2>{{item.key}}</h2>
+            <h3>{{ (googleIdentity$ | async)?.displayName }}</h3>
+            <p>{{item.status | syncProviderStatus}}</p>
+            <ion-progress-bar *ngIf="item.isSyncProcess || item.isEnablingToggleProcess" type="indeterminate"></ion-progress-bar>
+          </ion-label>
+          <ion-toggle [disabled]="!(googleIdentity$ | async) || item.isEnablingToggleProcess" checked="{{item.isEnabled}}" (ionChange)="toggleSyncProviderEnabled(item.key)"></ion-toggle>
+        </ion-item>
+
+      </ion-item-sliding>
+
+
+    </ion-item-group>
+
+    <ion-item-group>
+      <ion-item-divider>
+        <ion-label>
+          {{'pageSettings.group.general.name' | translate}}
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-item>
+        <ion-label>
+          <h2>{{'pageSettings.group.general.uiLanguage' | translate}}</h2>
+        </ion-label>
+        <ion-select placeholder="{{'common.letSelect' | translate}}" [ngModel]="uiLanguage$ | async" (ngModelChange)="onSelectUILanguage($event)">
+          <ion-select-option [value]="lng[0]" *ngFor="let lng of availableUILanguages$ | async">{{lng[1]}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          <h2>{{'pageSettings.group.general.hideCompletedTasks' | translate}}</h2>
+        </ion-label>
+        <ion-toggle [checked]="isHideCompletedTasks$ | async" (ionChange)="toggleHideCompletedTasks()"></ion-toggle>
+      </ion-item>
+
+      <ion-item [disabled]="!(selectIsRecognizeSpeechAvailable$ | async)">
+        <ion-label>
+          <h2>{{'pageSettings.group.general.recognizeSpeechLanguage' | translate}}</h2>
+        </ion-label>
+        <ion-select placeholder="{{'common.letSelect' | translate}}" [ngModel]="recognizeSpeechLanguage$ | async" (ngModelChange)="onSelectRecognizeSpeechLanguage($event)">
+          <ion-select-option [value]="lng" *ngFor="let lng of selectRecognizeSpeechAvailableLanguages$ | async">{{lng}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item [disabled]="!(selectIsRecognizeSpeechAvailable$ | async)">
+        <ion-label>
+          <h2>{{'pageSettings.group.general.recognitionWhenAdding' | translate}}</h2>
+        </ion-label>
+        <ion-toggle [checked]="isRecognitionWhenAdding$ | async" (ionChange)="toggleRecognitionWhenAdding()"></ion-toggle>
+      </ion-item>
+
+
+    </ion-item-group>
+    <ion-item-group>
+      <ion-item-divider>
+        <ion-label>
+          {{'pageSettings.group.dataMigration.name' | translate}}
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-item>
+        <ion-button [disabled]="isExportDataProcess$ | async" (click)="exportData()">{{'pageSettings.group.dataMigration.export' | translate}}</ion-button>
+        <ion-button [disabled]="isImportDataProcess$ | async" (click)="importData()">{{'pageSettings.group.dataMigration.import' | translate}}</ion-button>
+      </ion-item>
+
+    </ion-item-group>
+
+  </ion-list>
+</ion-content>

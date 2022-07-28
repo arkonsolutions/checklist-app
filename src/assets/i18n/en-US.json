@@ -1,0 +1,88 @@
+{
+    "pageChecklist": {
+        "name": "Checklist",
+        "internal": {
+            "goToParent": "Go to the parent element",
+            "goToHome": "Home",
+            "anywayAsDone": "Completed {{childrenDone}} from {{childrenCount}} subtasks.\r\n Anyway mark the task '{{title}}' as completed?",
+            "anywayAsUndone": "All {{childrenDone}} subtasks have been completed.\r\n Anyway mark the task '{{title}}' as not completed?",
+            "taskIsCompleted": "The task \"{{title}}\" is completed.",
+            "taskMustBeCompleted": "The task \"{{title}}\" is waiting to be completed.",
+            "copyEntryHeader": "Replicate a entry",
+            "createChecklist": "Create a Checklist",
+            "createTemplate": "Create a Template",
+            "newTemplateCreated": "A new Template has been created \"{{title}}\".",
+            "newChecklistCreated": "A new Checklist has been created \"{{title}}\"."
+        },
+        "btnAdd": "Add",
+        "btnAddSubtask": "Add Subtask",
+        "btnDetails": "Details",
+        "btnReplicate": "Replicate",
+        "lblDueDate": "Due date",
+        "lblCompletionDate": "Date of completion",
+        "lblCompletedSubtasks": "Completed subtasks",
+        "lblCSTcounter": "{{childrenDone}} from {{childrenCount}}",
+        "lblSubtasks": "Subtasks:",
+        "itmDueDate": "Due date: {{dueDate}}",
+        "itmDoneDate": "Done date: {{isDoneDate}}",
+        "itmChildrenCount": "Completed subtasks: {{childrenDone}} from {{childrenCount}}"
+    },
+    "pageChecklistForm": {
+        "titleAdd": "Add entry",
+        "titleEdit": "Edit entry",
+        "lblParentElement": "Parent element: {{pt}}",
+        "lblTitle": "Title",
+        "lblDescription": "Description"
+    },
+    "pageTemplate": {
+        "name": "Template"
+    },
+    "pageSettings": {
+        "name": "Settings",
+        "group": {
+            "general": {
+                "name": "General",
+                "hideCompletedTasks": "Hide completed tasks",
+                "recognizeSpeechLanguage": "Recognize speech language",
+                "uiLanguage": "UI language",
+                "recognitionWhenAdding": "Speech recognition by default when adding"
+            },
+            "dataMigration": {
+                "name": "Data migration",
+                "export": "Export",
+                "import": "Import"
+            }
+        }
+    },
+    "pageAbout": {
+        "name": "About",
+        "lblAppVersion": "Application version:",
+        "lblAuthor": "Author:",
+        "lblAuthorName": "Wereteychenko Sergey",
+        "lblSite": "Site:"
+    },
+    "common": {
+        "letSelect": "Select...",
+        "itemNotFound": "Item not found",
+        "confirmDeleteItem": "The entry \"{{title}}\" will be deleted. Confirm the action.",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "ok": "OK",
+        "yes": "Yes",
+        "no": "No",
+        "validationRequiredField": "Required field."
+    },
+    "app": {
+        "recognitionDoNotAvailable": "Speech recognition is not available on the device.",
+        "recognitionWindowTitle": "Dictate the text...",
+        "errorMessage": "Error: {{message}}",
+        "notifyRecognitionStarted": "Speech recognition: Speak text into the microphone..."
+    },
+    "sync": {
+        "confirmExport": "A snapshot of the database will be created and exported to a json file format. Continue?",
+        "confirmShare": "The database snapshot has been created successfully! Would you like to share it?",
+        "share": "Share",
+        "specifyFileLocation": "Specify the location of the data snapshot file. The data from it will be imported.",
+        "importSuccsessfuly": "Data has been successfully imported"
+    }
+}
