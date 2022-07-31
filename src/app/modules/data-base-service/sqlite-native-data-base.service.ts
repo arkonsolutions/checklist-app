@@ -15,7 +15,7 @@ const DB_NAME = 'CheckList.sqlite';
 
 @Injectable()
 export class SqliteNativeDataBaseService extends DataBaseService {
-  
+ 
   public importFileToDb(fileData: string): Promise<any> {
     if (fileData.indexOf('AppVersion') === -1) {
       return this.importFileToDbDepricated(fileData);
@@ -151,4 +151,5 @@ export class SqliteNativeDataBaseService extends DataBaseService {
       });
     });
   }
+  
 }

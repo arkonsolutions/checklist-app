@@ -14,7 +14,7 @@
     "module": "es2020",
     "lib": ["es2018", "dom"],
     "skipLibCheck": true,
-    "types": ["node"],
+    "types": ["node", "ject", "mocha"],
     "typeRoots": [ "../node_modules/@types" ]
   },
   "angularCompilerOptions": {

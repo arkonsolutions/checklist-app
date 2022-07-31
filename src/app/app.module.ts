@@ -34,11 +34,13 @@ import { SettingsStoreModule } from './modules/settings-store/settings-store.mod
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { createTranslateLoader } from 'src/shared/utils/create-translate-loader';
 import * as appActions from './store/app.actions';
+import { MigrationService } from './services/migration.service';
 
-const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: AuthService, store: Store, globalization: Globalization) => {
+const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: AuthService, store: Store, globalization: Globalization, migrationService: MigrationService) => {
   const res = () => { 
     return platform.ready()
       .then(() => dbService.initialize())
+      .then(() => migrationService.migrateToVersion(environment.appVersion))
       .then(() => {
         return globalization.getPreferredLanguage()
           .then(res => store.dispatch(appActions.discoveredPreferredLanguage({lng: res.value})))
@@ -83,7 +85,7 @@ const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: Au
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: APP_INITIALIZER,
-      deps: [DataBaseService, Platform, AuthService, Store, Globalization],
+      deps: [DataBaseService, Platform, AuthService, Store, Globalization, MigrationService],
       useFactory: appInitFactory,
       multi: true,
     },
