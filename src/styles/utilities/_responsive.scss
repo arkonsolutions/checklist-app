@@ -1,0 +1,6 @@
+/*Hide for portrait*/
+.hide-p {
+    @media screen and (orientation: portrait) {
+        display: none;
+    }
+}

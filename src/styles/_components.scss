@@ -1,0 +1,20 @@
+.spinner-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .sub-item {
+    --inner-padding-end: 0;
+  
+    ion-item {
+      width: 100%;
+    }
+  }
+  
+  .validation-errors {
+    font-size: small;
+    color: var(--ion-color-danger, #f1453d);
+    margin-left: 1em;
+  }
