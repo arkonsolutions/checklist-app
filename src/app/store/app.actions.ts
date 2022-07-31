@@ -36,7 +36,10 @@ export enum AppActionsEnum {
   DiscoveredPreferredLanguage = '[App] DiscoveredPreferredLanguage',
 
   /** Сохранение в store версии приложения */
-  SetAppVersion = '[App] SetAppVersion'
+  SetAppVersion = '[App] SetAppVersion',
+
+  /** Проверка обновлений приложения */
+  CheckUpdates = '[App] CheckUpdates'
 }
 
 export const displayError = createAction(
@@ -109,7 +112,11 @@ export const discoveredPreferredLanguage = createAction(
 export const setAppVersion = createAction(
   AppActionsEnum.SetAppVersion,
   props<{appVersion: string}>()
-)
+);
+
+export const checkUpdates = createAction(
+  AppActionsEnum.CheckUpdates
+);
 
 const all = union({
   displayError,
@@ -130,7 +137,8 @@ const all = union({
   recognizeSpeechAvailable,
   recognizeSpeechProcess,
   discoveredPreferredLanguage,
-  setAppVersion
+  setAppVersion,
+  checkUpdates
 });
 
 export type AppActionsUnion = typeof all;

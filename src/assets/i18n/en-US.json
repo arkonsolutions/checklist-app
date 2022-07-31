@@ -51,6 +51,11 @@
                 "name": "Data migration",
                 "export": "Export",
                 "import": "Import"
+            },
+            "updates": {
+                "name": "Updates",
+                "checkUpdatesAtStartup": "Check updates at startup",
+                "checkUpdates": "Check updates"
             }
         }
     },

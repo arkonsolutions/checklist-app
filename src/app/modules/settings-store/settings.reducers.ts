@@ -23,4 +23,8 @@ export const settingsReducer = createReducer(
     ...state,
     isRecognitionWhenAdding: !state.isRecognitionWhenAdding
   })),
+  on(settingsActions.toggleCheckUpdatesAtStartup, (state) => ({
+    ...state,
+    isCheckUpdatesAtStartup: !state.isCheckUpdatesAtStartup
+  })),
 );

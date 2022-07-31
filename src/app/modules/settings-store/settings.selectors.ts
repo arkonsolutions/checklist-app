@@ -26,3 +26,7 @@ export const selectisRecognitionWhenAdding = createSelector(
   selectSettingsState,
   (state: ISettingsState) => !!state ? state.isRecognitionWhenAdding : false
 );
+export const selectisCheckUpdatesAtStartup = createSelector(
+  selectSettingsState,
+  (state: ISettingsState) => !!state ? state.isCheckUpdatesAtStartup : false
+);

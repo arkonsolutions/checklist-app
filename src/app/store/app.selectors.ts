@@ -26,3 +26,7 @@ export const selectAppVersion = createSelector(
   selectAppState,
   (state: appState.State) => !!state ? state.appVersion : null
 );
+export const selectIsCheckUpdatesProcess = createSelector(
+  selectAppState,
+  (state: appState.State) => !!state ? state.isCheckUpdatesProcess : false
+);

@@ -6,6 +6,7 @@ export interface ISettingsState {
   uiLanguage: string;
   availableUILanguages: [string, string][],
   isRecognitionWhenAdding: boolean;
+  isCheckUpdatesAtStartup: boolean;
 }
 
 export const initialState = {
@@ -16,5 +17,6 @@ export const initialState = {
     ["ru-RU", "Русский"],
     ["en-US", "English"]
   ],
-  isRecognitionWhenAdding: false
+  isRecognitionWhenAdding: false,
+  isCheckUpdatesAtStartup: false
 } as ISettingsState;

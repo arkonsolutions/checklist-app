@@ -15,6 +15,8 @@ export enum SettingsActionsEnum {
   SelectRecognizeSpeechLanguage = '[Settings] SelectRecognizeSpeechLanguage',
   SelectUILanguage = '[Settings] SelectUILanguage',
   ToggleRecognitionWhenAdding = '[Settings] ToggleRecognitionWhenAdding',
+
+  ToggleCheckUpdatesAtStartup = '[Settings] ToggleCheckUpdatesAtStartup',
 }
 
 export const settingsStore = createAction(SettingsActionsEnum.SettingsStore);
@@ -50,6 +52,10 @@ export const toggleRecognitionWhenAdding = createAction(
   SettingsActionsEnum.ToggleRecognitionWhenAdding
 );
 
+export const toggleCheckUpdatesAtStartup = createAction(
+  SettingsActionsEnum.ToggleCheckUpdatesAtStartup
+);
+
 const all = union({
   settingsStore,
   settingsStoreSucess,
@@ -60,7 +66,8 @@ const all = union({
   toggleHideCompletedTasks,
   selectRecognizeSpeechLanguage,
   selectUILanguage,
-  toggleRecognitionWhenAdding
+  toggleRecognitionWhenAdding,
+  toggleCheckUpdatesAtStartup
 });
 
 export type SettingsActionsUnion = typeof all;

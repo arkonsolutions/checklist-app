@@ -119,5 +119,26 @@
 
     </ion-item-group>
 
+    <ion-item-group>
+      <ion-item-divider>
+        <ion-label>
+          {{'pageSettings.group.updates.name' | translate}}
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-item>
+        <ion-label>
+          <h2>{{'pageSettings.group.updates.checkUpdatesAtStartup' | translate}}</h2>
+        </ion-label>
+        <ion-toggle [checked]="isCheckUpdatesAtStartup$ | async" (ionChange)="toggleCheckUpdatesAtStartup()"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-button [disabled]="isCheckUpdatesProcess$ | async" (click)="checkUpdates()">{{'pageSettings.group.updates.checkUpdates' | translate}}</ion-button>
+      </ion-item>
+
+    </ion-item-group>
+
+
+
   </ion-list>
 </ion-content>

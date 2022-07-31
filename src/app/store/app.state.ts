@@ -8,6 +8,7 @@ export interface State {
   preferredLanguage: string;
   isRecognizeSpeechAvailable: boolean;
   recognizeSpeechAvailableLanguages: string[];
+  isCheckUpdatesProcess: boolean;
 }
 
 export const initialState: State = {
@@ -17,5 +18,6 @@ export const initialState: State = {
   appVersion: null,
   preferredLanguage: null,
   isRecognizeSpeechAvailable: false,
-  recognizeSpeechAvailableLanguages: []
+  recognizeSpeechAvailableLanguages: [],
+  isCheckUpdatesProcess: false
 };

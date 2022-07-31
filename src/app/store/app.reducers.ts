@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import * as appActions from './app.actions';
+import { selectIsCheckUpdatesProcess } from './app.selectors';
 import * as appState from './app.state';
 
 export const reducer = createReducer(
@@ -23,5 +24,10 @@ export const reducer = createReducer(
   on(appActions.setAppVersion, (state, {appVersion}) => ({
     ...state,
     appVersion: appVersion
+  })),
+
+  on(appActions.checkUpdates, (state) => ({
+    ...state,
+    isCheckUpdatesProcess: true
   }))
 );

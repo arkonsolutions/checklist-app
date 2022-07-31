@@ -11,13 +11,14 @@ import {
 } 
 from 'src/app/modules/sync-store/sync.selectors';
 import { ISyncProviderState } from 'src/app/modules/sync-store/sync.state';
+import * as appActions from '../../../../store/app.actions';
 import * as authActions from '../../../auth-store/auth.actions';
 import * as authSelectors from '../../../auth-store/auth.selectors';
 import * as syncActions from '../../../sync-store/sync.actions';
-import { selectAvailableUILanguages, selectIsHideCompletedTasks, selectisRecognitionWhenAdding, selectRecognizeSpeechLanguage, selectUILanguage } from 'src/app/modules/settings-store/settings.selectors';
+import { selectAvailableUILanguages, selectIsHideCompletedTasks, selectisRecognitionWhenAdding, selectRecognizeSpeechLanguage, selectUILanguage, selectisCheckUpdatesAtStartup } from 'src/app/modules/settings-store/settings.selectors';
 import * as settingsActions from '../../../settings-store/settings.actions';
 import { AuthProviderEnum } from 'src/app/modules/auth-store/model/auth-provider.enum';
-import { selectIsRecognizeSpeechAvailable, selectRecognizeSpeechAvailableLanguages } from 'src/app/store/app.selectors';
+import { selectIsRecognizeSpeechAvailable, selectRecognizeSpeechAvailableLanguages, selectIsCheckUpdatesProcess } from 'src/app/store/app.selectors';
 
 @Component({
   selector: 'app-settings-page',
@@ -35,12 +36,14 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
 
   public isExportDataProcess$: Observable<boolean> = this.store.select(selectIsExportDataProcess);
   public isImportDataProcess$: Observable<boolean> = this.store.select(selectIsImportDataProcess);
+  public isCheckUpdatesProcess$: Observable<boolean> = this.store.select(selectIsCheckUpdatesProcess);
   
   public isHideCompletedTasks$: Observable<boolean> = this.store.select(selectIsHideCompletedTasks);
   public recognizeSpeechLanguage$: Observable<string> = this.store.select(selectRecognizeSpeechLanguage);
   public availableUILanguages$: Observable<[string, string][]> = this.store.select(selectAvailableUILanguages);
   public uiLanguage$: Observable<string> = this.store.select(selectUILanguage);
   public isRecognitionWhenAdding$: Observable<boolean> = this.store.select(selectisRecognitionWhenAdding);
+  public isCheckUpdatesAtStartup$: Observable<boolean> = this.store.select(selectisCheckUpdatesAtStartup);
 
   public busy$: Observable<boolean> = combineLatest([
     this.isExportDataProcess$,
@@ -104,6 +107,14 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
 
   public toggleRecognitionWhenAdding() {
     this.store.dispatch(settingsActions.toggleRecognitionWhenAdding());
+  }
+
+  public toggleCheckUpdatesAtStartup() {
+    this.store.dispatch(settingsActions.toggleCheckUpdatesAtStartup());
+  }
+
+  public checkUpdates() {
+    this.store.dispatch(appActions.checkUpdates());
   }
 
 }
