@@ -55,7 +55,7 @@
             "updates": {
                 "name": "Обновление",
                 "checkUpdatesAtStartup": "Проверять обновления при запуске",
-                "checkUpdates": "Проверить обнвления"
+                "checkUpdates": "Проверить обновления"
             }
         }
     },

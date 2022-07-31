@@ -130,7 +130,7 @@ export class SyncEffects implements OnInitEffects {
       try {
         let jsonString = await this.dbService.exportDbToFile();
         let date = new Date();
-        let jsonFilePath = `checklist_${date.getFullYear()}_${date.getUTCMonth()}_${date.getUTCDay()}_${date.getUTCHours()}_${date.getUTCMinutes()}_${date.getUTCSeconds()}.snapshot`;
+        let jsonFilePath = `snapshot_${date.getFullYear()}_${date.getUTCMonth()}_${date.getUTCDay()}_${date.getUTCHours()}_${date.getUTCMinutes()}_${date.getUTCSeconds()}.checklist`;
 
         let saveRes = await Filesystem.writeFile({
           path: jsonFilePath,

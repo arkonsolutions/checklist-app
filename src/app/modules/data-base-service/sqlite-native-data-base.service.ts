@@ -8,6 +8,8 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { take } from 'rxjs/operators';
 import { DataBaseService, StatementData } from './data-base.service';
 import { SQLitePorter } from '@awesome-cordova-plugins/sqlite-porter/ngx';
+import { environment } from 'src/environments/environment';
+import { ExchangeSet } from 'src/app/models/exchange-set.model';
 
 const DB_NAME = 'CheckList.sqlite';
 
@@ -15,9 +17,14 @@ const DB_NAME = 'CheckList.sqlite';
 export class SqliteNativeDataBaseService extends DataBaseService {
   
   public importFileToDb(fileData: string): Promise<any> {
+    if (fileData.indexOf('AppVersion') === -1) {
+      return this.importFileToDbDepricated(fileData);
+    } else {
+      return this.importFileToDbExchangeSet(JSON.parse(JSON.parse(fileData)) as ExchangeSet);
+    }
+  }
 
-    //return this.sqlitePorter.importSqlToDb(this.db, fileData);
-
+  private importFileToDbDepricated(fileData: string): Promise<any> {
     const instructions = fileData.split(';');
     return this.db.transaction((fx) => {
       instructions.forEach((instr, idx, arr) => {
@@ -29,15 +36,57 @@ export class SqliteNativeDataBaseService extends DataBaseService {
     });
   }
 
-  public exportDbToFile(): Promise<any> {
-    return this.sqlitePorter.exportDbToSql(this.db).then(res => {
-      return this.postrocessExportedDBData(res);
+  private importFileToDbExchangeSet(exchangeSet: ExchangeSet): Promise<any> {
+
+    const instructions = [];
+    if (!!exchangeSet && !!exchangeSet.CheckList && exchangeSet.CheckList.length > 0) {
+      let instStart = "INSERT OR REPLACE INTO [CheckList] (";
+      let fieldNames = Object.keys(exchangeSet.CheckList[0]);
+      for(let i = 0; i < fieldNames.length; i++) {
+        instStart += fieldNames[i];
+        if (i < fieldNames.length - 1) {
+          instStart += ", "
+        }
+      }
+      instStart += ") VALUES (";
+
+      exchangeSet.CheckList.forEach((itm, idx, arr) => {
+        let instruction = instStart;
+        for(let i = 0; i < fieldNames.length; i++) {
+          let val = itm[fieldNames[i]];
+          if (val != null)
+            val = `"${val}"`;
+          instruction += val;
+          if (i < fieldNames.length - 1) {
+            instruction += ", "
+          }
+        }
+        instruction += ")";
+        instructions.push(instruction);
+      });
+    }
+
+    return this.db.transaction((fx) => {
+      instructions.forEach((instr, idx, arr) => {
+        if (instr.length > 0) {
+          fx.executeSql(instr, []);
+        }
+      });
     });
   }
 
-  private postrocessExportedDBData(fileData: string): string {
-    let statements = fileData.substring(fileData.indexOf('INSERT'), fileData.length);
-    return statements;
+  public exportDbToFile(): Promise<any> {
+    let statement = "SELECT * FROM [CheckList]";
+    return this.executeSql({statement}).then(sqlRes => {
+      let exportObj: ExchangeSet = {
+        "AppVersion": environment.appVersion, 
+        "CheckList": []
+      };
+      for (let i = 0; i < sqlRes.rows.length; i++) {
+        exportObj.CheckList.push(sqlRes.rows.item(i));
+      }
+      return JSON.stringify(exportObj);
+    });
   }
 
   private db: SQLiteObject;
