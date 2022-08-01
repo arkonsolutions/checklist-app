@@ -135,6 +135,9 @@
       <ion-item>
         <ion-button [disabled]="!(isUpdateCheckAvailable$ | async)" (click)="checkUpdates()">{{'pageSettings.group.updates.checkUpdates' | translate}}</ion-button>
       </ion-item>
+      <ion-item *ngIf="!(isUpdateCheckAvailable$ | async)">
+        <ion-progress-bar type="indeterminate"></ion-progress-bar>
+      </ion-item>
 
     </ion-item-group>
 

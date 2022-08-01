@@ -26,6 +26,7 @@ import { MigrationService } from '../services/migration.service';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@awesome-cordova-plugins/file-transfer/ngx';
 import * as AwesomeFile from '@awesome-cordova-plugins/file';
 import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
+import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 
 
 @Injectable()
@@ -207,15 +208,18 @@ export class AppEffects {
               ],
             })
             .then((alert) => alert.present().then(() => alert.onDidDismiss()))
-            .then((res) => {
+            .then(async (res) => {
               if (res.role === 'ok') {
+                
 
                 let fileName = this.remoteAPIService.getAppVersionFileName(action.lastVersion);
+                let nativeFilePath = AwesomeFile.File.dataDirectory + fileName;           
+                
                 const fileTransfer: FileTransferObject = this.transfer.create();
                 this.store.dispatch(appActions.binariesDownload());
                 fileTransfer.download(
                   this.remoteAPIService.getDownloadLinkForAppVersion(action.lastVersion), 
-                  AwesomeFile.File.dataDirectory + fileName
+                  nativeFilePath
                 ).then((entry) => {
                   this.store.dispatch(appActions.binariesDownloadSuccess({filePath: entry.toURL()}));
                 }).catch((error) => {
@@ -244,9 +248,7 @@ export class AppEffects {
         filePath,
         'application/vnd.android.package-archive'
       ).then((success) => {
-        console.log('!!!!!!!!!!success: ', success);
       }, (err) => {
-        console.log('!!!!!!!!!!!!!!err: ', err);
       });
     })
   ), {dispatch: false});
