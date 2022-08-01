@@ -57,7 +57,7 @@ export class SettingsEffects {
   settingsRestoreSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(settingsActions.SettingsActionsEnum.SettingsRestoreSuccess),
     withLatestFrom(this.store.select(settingsSelectors.selectisCheckUpdatesAtStartup)),
-    tap(([action, isCheckUpdatesAtStartup]) => {
+    tap(async ([action, isCheckUpdatesAtStartup]) => {
       if (isCheckUpdatesAtStartup) {
         this.store.dispatch(appActions.checkUpdates());
       }
@@ -84,8 +84,9 @@ export class SettingsEffects {
   ));
   selectUILanguage$ = createEffect(() => this.actions$.pipe(
     ofType(settingsActions.selectUILanguage),
-    switchMap((payload) => this.translateService.use(payload.lng))
-  ), {dispatch: false});
+    switchMap((payload) => this.translateService.use(payload.lng)),
+    map(action => settingsActions.settingsStore())
+  ));
   toggleRecognitionWhenAdding$ = createEffect(() => this.actions$.pipe(
     ofType(settingsActions.toggleRecognitionWhenAdding),
     map(action => settingsActions.settingsStore())

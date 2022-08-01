@@ -1,11 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SpeechRecognition } from "@capacitor-community/speech-recognition";
-import { TranslateService } from '@ngx-translate/core';
 import * as appActions from './store/app.actions';
 import { Subject } from 'rxjs';
-import { takeUntil, take, filter } from 'rxjs/operators';
-import { selectUILanguage } from './modules/settings-store/settings.selectors';
 
 @Component({
   selector: 'app-root',
@@ -17,8 +14,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private unsubscribe$: Subject<void> = new Subject<void>();
 
   constructor(
-    private store: Store,
-    private translate: TranslateService
+    private store: Store
   ) {}
 
   ngOnInit(): void {

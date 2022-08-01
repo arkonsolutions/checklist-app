@@ -35,23 +35,31 @@ import { createTranslateLoader } from 'src/shared/utils/create-translate-loader'
 import * as appActions from './store/app.actions';
 import { MigrationService } from './services/migration.service';
 import { Downloader } from '@ionic-native/downloader/ngx';
+import { ConfigStorageService } from './services/config-storage.service';
+import { ISettingsState } from './modules/settings-store/settings.state';
 
-const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: AuthService, store: Store, migrationService: MigrationService, translateService: TranslateService) => {
+const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: AuthService, store: Store, migrationService: MigrationService, translateService: TranslateService, configStorageService: ConfigStorageService) => {
   const res = () => { 
     return platform.ready()
       .then(() => dbService.initialize())
       .then(() => migrationService.migrateToVersion(environment.appVersion))
       .then(() => {
-        return new Promise((resolve: any) => {
+        store.dispatch(appActions.setAppVersion({appVersion: environment.appVersion}));
+        return new Promise(async (resolve: any) => {
           let userPrefferedLocale = Intl.DateTimeFormat().resolvedOptions().locale.toString();
-          if (userPrefferedLocale.startsWith('ru')) {
-            translateService.setDefaultLang('ru-RU');
-          } else {
-            translateService.setDefaultLang('en-US');
-          }
           
-          return translateService.use(userPrefferedLocale).subscribe((res) => {
-            store.dispatch(appActions.discoveredPreferredLanguage({lng: userPrefferedLocale}));
+          let defaultLocale = null;
+          if (userPrefferedLocale.startsWith('ru')) {
+            defaultLocale = 'ru-RU';
+          } else {
+            defaultLocale = 'en-US';
+          }
+          translateService.setDefaultLang(defaultLocale);
+
+          let settings = await configStorageService.restore<ISettingsState>("settings").toPromise();
+          
+          return translateService.use(settings.uiLanguage).subscribe((res) => {
+            store.dispatch(appActions.discoveredPreferredLanguage({lng: settings.uiLanguage}));
           }, err => {
             store.dispatch(appActions.discoveredPreferredLanguage({lng: 'en-US'}));
           }, () => {
@@ -60,7 +68,6 @@ const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: Au
 
         });
       }).then(() => {
-        store.dispatch(appActions.setAppVersion({appVersion: environment.appVersion}));
         store.dispatch(appActions.appInitialized());
       })
   };
@@ -100,7 +107,7 @@ const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: Au
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: APP_INITIALIZER,
-      deps: [DataBaseService, Platform, AuthService, Store, MigrationService, TranslateService],
+      deps: [DataBaseService, Platform, AuthService, Store, MigrationService, TranslateService, ConfigStorageService],
       useFactory: appInitFactory,
       multi: true,
     },
