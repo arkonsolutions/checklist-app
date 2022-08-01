@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { MenuController, NavController, ToastController } from '@ionic/angular';
+import { AlertController, MenuController, NavController, ToastController } from '@ionic/angular';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { ROUTER_NAVIGATION } from '@ngrx/router-store';
 import { Action, Store } from '@ngrx/store';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import {
   catchError,
   filter,
@@ -20,6 +20,8 @@ import { AppConfig } from '../models/app-config.model';
 import { SpeechRecognition } from "@capacitor-community/speech-recognition";
 import { selectRecognizeSpeechLanguage } from '../modules/settings-store/settings.selectors';
 import { TranslateService } from '@ngx-translate/core';
+import { RemoteAPIService } from '../services/remote-api.service';
+import { MigrationService } from '../services/migration.service';
 
 @Injectable()
 export class AppEffects implements OnInitEffects {
@@ -162,7 +164,55 @@ export class AppEffects implements OnInitEffects {
         popup: false,
       });
     }),
-  ), {dispatch: false})
+  ), {dispatch: false});
+
+  checkUpdates$ = createEffect(() => this.actions$.pipe(
+    ofType(appActions.AppActionsEnum.CheckUpdates),
+    switchMap(() => {
+      return this.remoteAPIService.getLatestAppVersion().pipe(
+        map((lastVersion) => appActions.checkUpdatesSuccess({lastVersion})),
+        catchError((err) => of(appActions.checkUpdatesFailure({ error: err })))
+      );
+    }),
+  ));
+  checkUpdatesSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(appActions.AppActionsEnum.CheckUpdatesSuccess),
+    withLatestFrom(this.store.select(appSelectors.selectAppVersion)),
+    switchMap(async ([action, appVersion]) => {
+      if (this.migrationService.isVersionANewerThanB(action.lastVersion.versionNumber, appVersion)) {
+        const confirmPromiseAction = this.alertController
+            .create({
+              message: this.translateService.instant("app.notifyNewVersionAvailable", {lastVersion: action.lastVersion.versionNumber, appVersion: appVersion}),
+              buttons: [
+                {
+                  text: this.translateService.instant("common.cancel"),
+                  role: 'cancel',
+                  cssClass: 'secondary',
+                },
+                {
+                  text: this.translateService.instant("app.btnUpdate"),
+                  role: 'ok',
+                },
+              ],
+            })
+            .then((alert) => alert.present().then(() => alert.onDidDismiss()))
+            .then((res) => {
+              if (res.role === 'ok') {
+                window.open(this.remoteAPIService.getDownloadLinkForAppVersion(action.lastVersion));
+              }
+            });
+
+      } else {
+        this.store.dispatch(appActions.displayNotification({message: this.translateService.instant("app.notifyLastVersionInstalled"), mode: 'Info'}));
+      }
+    }),
+  ), {dispatch: false});
+  checkUpdatesFailure$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(appActions.AppActionsEnum.CheckUpdatesFailure),
+      map((action) => appActions.displayError({ error: action.error.message }))
+    )
+  );
 
   constructor(
     private actions$: Actions<appActions.AppActionsUnion>,
@@ -172,7 +222,10 @@ export class AppEffects implements OnInitEffects {
     private navCtrl: NavController,
     private store: Store,
     private socialSharing: SocialSharing,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private remoteAPIService: RemoteAPIService,
+    private migrationService: MigrationService,
+    private alertController: AlertController
   ) {}
 
   ngrxOnInitEffects(): Action {

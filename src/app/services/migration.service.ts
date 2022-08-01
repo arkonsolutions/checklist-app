@@ -20,7 +20,7 @@ export class MigrationService {
             return null;
           });
 
-          if(!dbAppVersion || this.isANewerThanB(appVersion, dbAppVersion)) {
+          if(!dbAppVersion || this.isVersionANewerThanB(appVersion, dbAppVersion)) {
 
             let migrationStatements: StatementData[] = this.getMigrationStatementsForVersion(dbAppVersion, migrations);
 
@@ -39,7 +39,7 @@ export class MigrationService {
           return null;
     }
 
-    private isANewerThanB(a: string, b: string): boolean {
+    public isVersionANewerThanB(a: string, b: string): boolean {
         if (typeof a !== 'string') return false;
         if (typeof b !== 'string') return false;
 
@@ -67,8 +67,8 @@ export class MigrationService {
         //1.Найти все миграции старше заданной версии
         //2.Отсортировать найденное по возрастанию
         //3.Перебрать полученный список и получить StatementsData из каждого элемента
-        let targetMigrations = migrations.filter(m => !appVersion || this.isANewerThanB(m.appVersion, appVersion))
-          .sort((a, b) => this.isANewerThanB(a.appVersion, b.appVersion) ? 1 : -1);
+        let targetMigrations = migrations.filter(m => !appVersion || this.isVersionANewerThanB(m.appVersion, appVersion))
+          .sort((a, b) => this.isVersionANewerThanB(a.appVersion, b.appVersion) ? 1 : -1);
         return targetMigrations.map(tm => tm.Up());
     }
 }

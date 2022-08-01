@@ -81,7 +81,10 @@
         "recognitionDoNotAvailable": "Распознавание речи недоступно на устройстве.",
         "recognitionWindowTitle": "Диктуйте...",
         "errorMessage": "Ошибка: {{message}}",
-        "notifyRecognitionStarted": "Распознование речи: продиктуйте текст в микрофон..."
+        "notifyRecognitionStarted": "Распознование речи: продиктуйте текст в микрофон...",
+        "notifyLastVersionInstalled": "У вас установлена самая новая версия приложения!",
+        "notifyNewVersionAvailable": "Доступна новая версия ({{lastVersion}}) приложения! В данный момент у вас установлена версия {{appVersion}}.  Скачать новую версию?",
+        "btnUpdate": "Скачать"
     },
     "sync": {
         "confirmExport": "Будет создан снимок базы данных и экспортирован в файл json формата. Продолжить?",

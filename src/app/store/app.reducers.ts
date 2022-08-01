@@ -29,5 +29,13 @@ export const reducer = createReducer(
   on(appActions.checkUpdates, (state) => ({
     ...state,
     isCheckUpdatesProcess: true
+  })),
+  on(appActions.checkUpdatesSuccess, (state) => ({
+    ...state,
+    isCheckUpdatesProcess: false
+  })),
+  on(appActions.checkUpdatesFailure, (state) => ({
+    ...state,
+    isCheckUpdatesProcess: false
   }))
 );

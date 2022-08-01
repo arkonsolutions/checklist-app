@@ -1,5 +1,6 @@
 import { createAction, props, union } from '@ngrx/store';
 import { AppConfig } from '../models/app-config.model';
+import { IAppVersion } from '../models/app-version.interface';
 
 export enum AppActionsEnum {
   /** Отобразить ошибку */
@@ -39,7 +40,9 @@ export enum AppActionsEnum {
   SetAppVersion = '[App] SetAppVersion',
 
   /** Проверка обновлений приложения */
-  CheckUpdates = '[App] CheckUpdates'
+  CheckUpdates = '[App] CheckUpdates',
+  CheckUpdatesSuccess = '[App] CheckUpdates Success',
+  CheckUpdatesFailure = '[App] CheckUpdates Failure'
 }
 
 export const displayError = createAction(
@@ -117,6 +120,14 @@ export const setAppVersion = createAction(
 export const checkUpdates = createAction(
   AppActionsEnum.CheckUpdates
 );
+export const checkUpdatesSuccess = createAction(
+  AppActionsEnum.CheckUpdatesSuccess,
+  props<{ lastVersion: IAppVersion }>()
+);
+export const checkUpdatesFailure = createAction(
+  AppActionsEnum.CheckUpdatesFailure,
+  props<{error: any}>()
+);
 
 const all = union({
   displayError,
@@ -138,7 +149,9 @@ const all = union({
   recognizeSpeechProcess,
   discoveredPreferredLanguage,
   setAppVersion,
-  checkUpdates
+  checkUpdates,
+  checkUpdatesSuccess,
+  checkUpdatesFailure
 });
 
 export type AppActionsUnion = typeof all;

@@ -81,7 +81,10 @@
         "recognitionDoNotAvailable": "Speech recognition is not available on the device.",
         "recognitionWindowTitle": "Dictate the text...",
         "errorMessage": "Error: {{message}}",
-        "notifyRecognitionStarted": "Speech recognition: Speak text into the microphone..."
+        "notifyRecognitionStarted": "Speech recognition: Speak text into the microphone...",
+        "notifyLastVersionInstalled": "You have the last version of the app installed!",
+        "notifyNewVersionAvailable": "A new version ({{lastVersion}}) of the app is available! You currently have the {{appVersion}} version installed. Download the new version?",
+        "btnUpdate": "Download"
     },
     "sync": {
         "confirmExport": "A snapshot of the database will be created and exported to a json file format. Continue?",
