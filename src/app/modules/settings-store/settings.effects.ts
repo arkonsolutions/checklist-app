@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
-import { Action, Store } from "@ngrx/store";
-import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import { Store } from "@ngrx/store";
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as settingsActions from './settings.actions';
 import * as settingsSelectors from './settings.selectors';
 import * as appActions from '../../store/app.actions';
+import * as appSelectors from '../../store/app.selectors';
 import * as checkListActions from '../check-lists/store/check-lists.actions';
 import { catchError, filter, map, switchMap, withLatestFrom, tap } from "rxjs/operators";
 import { of } from "rxjs";
@@ -56,9 +57,9 @@ export class SettingsEffects {
   );
   settingsRestoreSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(settingsActions.SettingsActionsEnum.SettingsRestoreSuccess),
-    withLatestFrom(this.store.select(settingsSelectors.selectisCheckUpdatesAtStartup)),
-    tap(async ([action, isCheckUpdatesAtStartup]) => {
-      if (isCheckUpdatesAtStartup) {
+    withLatestFrom(this.store.select(settingsSelectors.selectisCheckUpdatesAtStartup), this.store.select(appSelectors.selectIsUpdateCheckAvailable)),
+    tap(async ([action, isCheckUpdatesAtStartup, isUpdateCheckAvailable]) => {
+      if (isCheckUpdatesAtStartup && isUpdateCheckAvailable) {
         this.store.dispatch(appActions.checkUpdates());
       }
     })

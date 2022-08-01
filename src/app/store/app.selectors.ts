@@ -30,3 +30,12 @@ export const selectIsCheckUpdatesProcess = createSelector(
   selectAppState,
   (state: appState.State) => !!state ? state.isCheckUpdatesProcess : false
 );
+export const selectIsBinariesDownloadProcess = createSelector(
+  selectAppState,
+  (state: appState.State) => !!state ? state.isBinariesDownloadProcess : false
+);
+export const selectIsUpdateCheckAvailable = createSelector(
+  selectIsCheckUpdatesProcess,
+  selectIsBinariesDownloadProcess,
+  (isCheckUpdatesProcess, isBinariesDownloadProcess) => !isCheckUpdatesProcess && !isBinariesDownloadProcess
+);

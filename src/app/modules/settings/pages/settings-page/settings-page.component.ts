@@ -18,7 +18,7 @@ import * as syncActions from '../../../sync-store/sync.actions';
 import { selectAvailableUILanguages, selectIsHideCompletedTasks, selectisRecognitionWhenAdding, selectRecognizeSpeechLanguage, selectUILanguage, selectisCheckUpdatesAtStartup } from 'src/app/modules/settings-store/settings.selectors';
 import * as settingsActions from '../../../settings-store/settings.actions';
 import { AuthProviderEnum } from 'src/app/modules/auth-store/model/auth-provider.enum';
-import { selectIsRecognizeSpeechAvailable, selectRecognizeSpeechAvailableLanguages, selectIsCheckUpdatesProcess } from 'src/app/store/app.selectors';
+import { selectIsRecognizeSpeechAvailable, selectRecognizeSpeechAvailableLanguages, selectIsCheckUpdatesProcess, selectIsBinariesDownloadProcess, selectIsUpdateCheckAvailable } from 'src/app/store/app.selectors';
 
 @Component({
   selector: 'app-settings-page',
@@ -36,7 +36,8 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
 
   public isExportDataProcess$: Observable<boolean> = this.store.select(selectIsExportDataProcess);
   public isImportDataProcess$: Observable<boolean> = this.store.select(selectIsImportDataProcess);
-  public isCheckUpdatesProcess$: Observable<boolean> = this.store.select(selectIsCheckUpdatesProcess);
+
+  public isUpdateCheckAvailable$: Observable<boolean> = this.store.select(selectIsUpdateCheckAvailable);
   
   public isHideCompletedTasks$: Observable<boolean> = this.store.select(selectIsHideCompletedTasks);
   public recognizeSpeechLanguage$: Observable<string> = this.store.select(selectRecognizeSpeechLanguage);

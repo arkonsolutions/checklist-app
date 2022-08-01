@@ -34,9 +34,9 @@ import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-transla
 import { createTranslateLoader } from 'src/shared/utils/create-translate-loader';
 import * as appActions from './store/app.actions';
 import { MigrationService } from './services/migration.service';
-import { Downloader } from '@ionic-native/downloader/ngx';
 import { ConfigStorageService } from './services/config-storage.service';
 import { ISettingsState } from './modules/settings-store/settings.state';
+import { FileTransfer } from '@awesome-cordova-plugins/file-transfer/ngx';
 
 const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: AuthService, store: Store, migrationService: MigrationService, translateService: TranslateService, configStorageService: ConfigStorageService) => {
   const res = () => { 
@@ -115,7 +115,7 @@ const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: Au
     GooglePlus,
     SocialSharing,
     FileChooser,
-    Downloader
+    FileTransfer
   ],
   bootstrap: [AppComponent],
 })

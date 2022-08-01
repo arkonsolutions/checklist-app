@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AlertController, MenuController, NavController, ToastController } from '@ionic/angular';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATION } from '@ngrx/router-store';
-import { Action, Store } from '@ngrx/store';
+import { createAction, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import {
   catchError,
@@ -22,7 +22,10 @@ import { selectRecognizeSpeechLanguage } from '../modules/settings-store/setting
 import { TranslateService } from '@ngx-translate/core';
 import { RemoteAPIService } from '../services/remote-api.service';
 import { MigrationService } from '../services/migration.service';
-import { Downloader, DownloadRequest, NotificationVisibility } from '@ionic-native/downloader/ngx';
+
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@awesome-cordova-plugins/file-transfer/ngx';
+import * as AwesomeFile from '@awesome-cordova-plugins/file';
+
 
 @Injectable()
 export class AppEffects {
@@ -205,25 +208,19 @@ export class AppEffects {
             .then((alert) => alert.present().then(() => alert.onDidDismiss()))
             .then((res) => {
               if (res.role === 'ok') {
-                let fileName = this.remoteAPIService.getAppVersionFileName(action.lastVersion);
-                var request: DownloadRequest = {
-                  uri: this.remoteAPIService.getDownloadLinkForAppVersion(action.lastVersion),
-                  title: fileName,
-                  description: '',
-                  mimeType: action.lastVersion.fileContentType,
-                  visibleInDownloadsUi: true,
-                  notificationVisibility: NotificationVisibility.VisibleNotifyCompleted,
-                  destinationInExternalFilesDir: {
-                      dirType: 'Downloads',
-                      subPath: fileName
-                  }
-                };
 
-                return this.downloader.download(request)
-                  .then((location: string) => console.log('!!!!!!!!!!!!!!!!!!!!!File downloaded at:'+location))
-                  .catch((error: any) => {
-                    this.store.dispatch(appActions.displayError({error: error}));
-                  });
+                let fileName = this.remoteAPIService.getAppVersionFileName(action.lastVersion);
+                const fileTransfer: FileTransferObject = this.transfer.create();
+                this.store.dispatch(appActions.binariesDownload());
+                fileTransfer.download(
+                  this.remoteAPIService.getDownloadLinkForAppVersion(action.lastVersion), 
+                  AwesomeFile.File.dataDirectory + fileName
+                ).then((entry) => {
+                  this.store.dispatch(appActions.binariesDownloadSuccess({filePath: entry.toURL()}));
+                }).catch((error) => {
+                  this.store.dispatch(appActions.binariesDownloadFailure({ error: JSON.stringify(error) }));
+                });
+
               }
             });
 
@@ -235,9 +232,20 @@ export class AppEffects {
   checkUpdatesFailure$ = createEffect(() =>
     this.actions$.pipe(
       ofType(appActions.AppActionsEnum.CheckUpdatesFailure),
-      map((action) => appActions.displayError({ error: action.error.message }))
+      map((action) => appActions.displayError({ error: action.error }))
     )
   );
+
+  binariesDownloadSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(appActions.AppActionsEnum.BinariesDownloadSuccess),
+    switchMap(async ({filePath}) => {
+      console.log('!!!!!!!!!!!file downloaded', filePath);
+    })
+  ), {dispatch: false});
+  binariesDownloadFailure$ = createEffect(() => this.actions$.pipe(
+    ofType(appActions.AppActionsEnum.BinariesDownloadFailure),
+    map((action) => appActions.displayError({ error: action.error }))
+  ));
 
   constructor(
     private actions$: Actions<appActions.AppActionsUnion>,
@@ -251,6 +259,6 @@ export class AppEffects {
     private remoteAPIService: RemoteAPIService,
     private migrationService: MigrationService,
     private alertController: AlertController,
-    private downloader: Downloader
+    private transfer: FileTransfer
   ) {}
 }

@@ -45,7 +45,12 @@ export enum AppActionsEnum {
   /** Проверка обновлений приложения */
   CheckUpdates = '[App] CheckUpdates',
   CheckUpdatesSuccess = '[App] CheckUpdates Success',
-  CheckUpdatesFailure = '[App] CheckUpdates Failure'
+  CheckUpdatesFailure = '[App] CheckUpdates Failure',
+
+  /** Скачивание дистрибутива с обновлением */
+  BinariesDownload = '[App] BinariesDownload',
+  BinariesDownloadSuccess = '[App] BinariesDownload Success',
+  BinariesDownloadFailure = '[App] BinariesDownload Failure',
 }
 
 export const appInitialized = createAction(
@@ -136,6 +141,18 @@ export const checkUpdatesFailure = createAction(
   props<{error: any}>()
 );
 
+export const binariesDownload = createAction(
+  AppActionsEnum.BinariesDownload
+);
+export const binariesDownloadSuccess = createAction(
+  AppActionsEnum.BinariesDownloadSuccess,
+  props<{ filePath: string }>()
+);
+export const binariesDownloadFailure = createAction(
+  AppActionsEnum.BinariesDownloadFailure,
+  props<{error: any}>()
+);
+
 const all = union({
   appInitialized,
   displayError,
@@ -159,7 +176,10 @@ const all = union({
   setAppVersion,
   checkUpdates,
   checkUpdatesSuccess,
-  checkUpdatesFailure
+  checkUpdatesFailure,
+  binariesDownload,
+  binariesDownloadSuccess,
+  binariesDownloadFailure
 });
 
 export type AppActionsUnion = typeof all;

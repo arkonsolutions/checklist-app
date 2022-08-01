@@ -133,7 +133,7 @@
         <ion-toggle [checked]="isCheckUpdatesAtStartup$ | async" (ionChange)="toggleCheckUpdatesAtStartup()"></ion-toggle>
       </ion-item>
       <ion-item>
-        <ion-button [disabled]="isCheckUpdatesProcess$ | async" (click)="checkUpdates()">{{'pageSettings.group.updates.checkUpdates' | translate}}</ion-button>
+        <ion-button [disabled]="!(isUpdateCheckAvailable$ | async)" (click)="checkUpdates()">{{'pageSettings.group.updates.checkUpdates' | translate}}</ion-button>
       </ion-item>
 
     </ion-item-group>

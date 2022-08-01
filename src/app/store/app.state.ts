@@ -9,6 +9,7 @@ export interface State {
   isRecognizeSpeechAvailable: boolean;
   recognizeSpeechAvailableLanguages: string[];
   isCheckUpdatesProcess: boolean;
+  isBinariesDownloadProcess: boolean;
 }
 
 export const initialState: State = {
@@ -19,5 +20,6 @@ export const initialState: State = {
   preferredLanguage: null,
   isRecognizeSpeechAvailable: false,
   recognizeSpeechAvailableLanguages: [],
-  isCheckUpdatesProcess: false
+  isCheckUpdatesProcess: false,
+  isBinariesDownloadProcess: false
 };

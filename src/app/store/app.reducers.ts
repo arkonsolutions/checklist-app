@@ -37,5 +37,18 @@ export const reducer = createReducer(
   on(appActions.checkUpdatesFailure, (state) => ({
     ...state,
     isCheckUpdatesProcess: false
+  })),
+
+  on(appActions.binariesDownload, (state) => ({
+    ...state,
+    isBinariesDownloadProcess: true
+  })),
+  on(appActions.binariesDownloadSuccess, (state) => ({
+    ...state,
+    isBinariesDownloadProcess: false
+  })),
+  on(appActions.binariesDownloadFailure, (state) => ({
+    ...state,
+    isBinariesDownloadProcess: false
   }))
 );
