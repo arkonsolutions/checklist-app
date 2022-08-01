@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SpeechRecognition } from "@capacitor-community/speech-recognition";
-import { Globalization } from '@awesome-cordova-plugins/globalization/ngx';
 import { TranslateService } from '@ngx-translate/core';
 import * as appActions from './store/app.actions';
 import { Subject } from 'rxjs';
@@ -19,7 +18,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store,
-    private globalization: Globalization,
     private translate: TranslateService
   ) {}
 
@@ -34,14 +32,6 @@ export class AppComponent implements OnInit, OnDestroy {
         availableLanguages = (await SpeechRecognition.getSupportedLanguages()).languages;
       }
       this.store.dispatch(appActions.recognizeSpeechAvailable({isRecognizeSpeechAvailable: res.available, availableLanguages: availableLanguages}));
-    });
-
-    this.store.select(selectUILanguage).pipe(
-      takeUntil(this.unsubscribe$),
-      filter(uiLanguage => !!uiLanguage),
-      take(1)
-    ).subscribe(uiLanguage => {
-      this.translate.setDefaultLang(uiLanguage);
     });
   }
 

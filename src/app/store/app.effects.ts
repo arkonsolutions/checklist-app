@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AlertController, MenuController, NavController, ToastController } from '@ionic/angular';
-import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATION } from '@ngrx/router-store';
 import { Action, Store } from '@ngrx/store';
 import { of } from 'rxjs';
@@ -25,7 +25,13 @@ import { MigrationService } from '../services/migration.service';
 import { Downloader, DownloadRequest, NotificationVisibility } from '@ionic-native/downloader/ngx';
 
 @Injectable()
-export class AppEffects implements OnInitEffects {
+export class AppEffects {
+
+  appInitialized$ = createEffect(() => this.actions$.pipe(
+    ofType(appActions.AppActionsEnum.AppInitialized),
+    map(acction => appActions.appConfigRestore())
+  ));
+
   startNavigation$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -247,8 +253,4 @@ export class AppEffects implements OnInitEffects {
     private alertController: AlertController,
     private downloader: Downloader
   ) {}
-
-  ngrxOnInitEffects(): Action {
-    return appActions.appConfigRestore();
-  }
 }

@@ -12,7 +12,7 @@ import { ConfigStorageService } from "src/app/services/config-storage.service";
 import { TranslateService } from "@ngx-translate/core";
 
 @Injectable()
-export class SettingsEffects implements OnInitEffects {
+export class SettingsEffects {
   
   constructor(
     private actions$: Actions<settingsActions.SettingsActionsUnion>,
@@ -21,9 +21,10 @@ export class SettingsEffects implements OnInitEffects {
     private translateService: TranslateService
   ) {}
 
-  ngrxOnInitEffects(): Action {
-    return settingsActions.settingsRestore();
-  }
+  appInitialized$ = createEffect(() => this.actions$.pipe(
+    ofType(appActions.AppActionsEnum.AppInitialized),
+    map(acction => settingsActions.settingsRestore())
+  ));
 
   settingsStore$ = createEffect(() =>
     this.actions$.pipe(

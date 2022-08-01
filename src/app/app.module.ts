@@ -4,7 +4,6 @@ import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy, Platform } from '@ionic/angular';
 import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
-import { Globalization } from '@awesome-cordova-plugins/globalization/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -31,23 +30,38 @@ import { SyncStoreModule } from './modules/sync-store/sync-store.module';
 import { FileChooser } from '@ionic-native/file-chooser/ngx';
 import { SettingsStoreModule } from './modules/settings-store/settings-store.module';
 
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { createTranslateLoader } from 'src/shared/utils/create-translate-loader';
 import * as appActions from './store/app.actions';
 import { MigrationService } from './services/migration.service';
 import { Downloader } from '@ionic-native/downloader/ngx';
 
-const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: AuthService, store: Store, globalization: Globalization, migrationService: MigrationService) => {
+const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: AuthService, store: Store, migrationService: MigrationService, translateService: TranslateService) => {
   const res = () => { 
     return platform.ready()
       .then(() => dbService.initialize())
       .then(() => migrationService.migrateToVersion(environment.appVersion))
       .then(() => {
-        return globalization.getPreferredLanguage()
-          .then(res => store.dispatch(appActions.discoveredPreferredLanguage({lng: res.value})))
-          .catch(e => store.dispatch(appActions.discoveredPreferredLanguage({lng: 'en-US'})));
+        return new Promise((resolve: any) => {
+          let userPrefferedLocale = Intl.DateTimeFormat().resolvedOptions().locale.toString();
+          if (userPrefferedLocale.startsWith('ru')) {
+            translateService.setDefaultLang('ru-RU');
+          } else {
+            translateService.setDefaultLang('en-US');
+          }
+          
+          return translateService.use(userPrefferedLocale).subscribe((res) => {
+            store.dispatch(appActions.discoveredPreferredLanguage({lng: userPrefferedLocale}));
+          }, err => {
+            store.dispatch(appActions.discoveredPreferredLanguage({lng: 'en-US'}));
+          }, () => {
+            resolve(null);
+          });
+
+        });
       }).then(() => {
         store.dispatch(appActions.setAppVersion({appVersion: environment.appVersion}));
+        store.dispatch(appActions.appInitialized());
       })
   };
   return res;
@@ -86,14 +100,13 @@ const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: Au
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: APP_INITIALIZER,
-      deps: [DataBaseService, Platform, AuthService, Store, Globalization, MigrationService],
+      deps: [DataBaseService, Platform, AuthService, Store, MigrationService, TranslateService],
       useFactory: appInitFactory,
       multi: true,
     },
     GooglePlus,
     SocialSharing,
     FileChooser,
-    Globalization,
     Downloader
   ],
   bootstrap: [AppComponent],

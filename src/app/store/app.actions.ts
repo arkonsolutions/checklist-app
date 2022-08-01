@@ -3,6 +3,9 @@ import { AppConfig } from '../models/app-config.model';
 import { IAppVersion } from '../models/app-version.interface';
 
 export enum AppActionsEnum {
+  /** Приложение инициализированно */
+  AppInitialized = '[App] Initialized',
+
   /** Отобразить ошибку */
   DisplayError = '[App] DisplayError',
 
@@ -44,6 +47,10 @@ export enum AppActionsEnum {
   CheckUpdatesSuccess = '[App] CheckUpdates Success',
   CheckUpdatesFailure = '[App] CheckUpdates Failure'
 }
+
+export const appInitialized = createAction(
+  AppActionsEnum.AppInitialized
+);
 
 export const displayError = createAction(
   AppActionsEnum.DisplayError,
@@ -130,6 +137,7 @@ export const checkUpdatesFailure = createAction(
 );
 
 const all = union({
+  appInitialized,
   displayError,
   displayNotification,
   navigateBack,
