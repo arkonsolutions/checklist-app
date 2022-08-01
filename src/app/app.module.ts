@@ -35,6 +35,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { createTranslateLoader } from 'src/shared/utils/create-translate-loader';
 import * as appActions from './store/app.actions';
 import { MigrationService } from './services/migration.service';
+import { Downloader } from '@ionic-native/downloader/ngx';
 
 const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: AuthService, store: Store, globalization: Globalization, migrationService: MigrationService) => {
   const res = () => { 
@@ -92,7 +93,8 @@ const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: Au
     GooglePlus,
     SocialSharing,
     FileChooser,
-    Globalization
+    Globalization,
+    Downloader
   ],
   bootstrap: [AppComponent],
 })

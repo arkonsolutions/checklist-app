@@ -5,7 +5,7 @@ import * as settingsActions from './settings.actions';
 import * as settingsSelectors from './settings.selectors';
 import * as appActions from '../../store/app.actions';
 import * as checkListActions from '../check-lists/store/check-lists.actions';
-import { catchError, filter, map, switchMap, withLatestFrom } from "rxjs/operators";
+import { catchError, filter, map, switchMap, withLatestFrom, tap } from "rxjs/operators";
 import { of } from "rxjs";
 import { ISettingsState } from "./settings.state";
 import { ConfigStorageService } from "src/app/services/config-storage.service";
@@ -53,6 +53,15 @@ export class SettingsEffects implements OnInitEffects {
       )
     )
   );
+  settingsRestoreSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType(settingsActions.SettingsActionsEnum.SettingsRestoreSuccess),
+    withLatestFrom(this.store.select(settingsSelectors.selectisCheckUpdatesAtStartup)),
+    tap(([action, isCheckUpdatesAtStartup]) => {
+      if (isCheckUpdatesAtStartup) {
+        this.store.dispatch(appActions.checkUpdates());
+      }
+    })
+  ), {dispatch: false});
   settingsRestoreFailure$ = createEffect(() =>
     this.actions$.pipe(
       ofType(settingsActions.SettingsActionsEnum.SettingsRestoreFailure),
@@ -78,6 +87,11 @@ export class SettingsEffects implements OnInitEffects {
   ), {dispatch: false});
   toggleRecognitionWhenAdding$ = createEffect(() => this.actions$.pipe(
     ofType(settingsActions.toggleRecognitionWhenAdding),
+    map(action => settingsActions.settingsStore())
+  ));
+
+  toggleCheckUpdatesAtStartup$ = createEffect(() => this.actions$.pipe(
+    ofType(settingsActions.toggleCheckUpdatesAtStartup),
     map(action => settingsActions.settingsStore())
   ));
 }

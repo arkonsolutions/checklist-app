@@ -23,6 +23,10 @@
     <param name="android-package" value="io.sqlc.SQLitePlugin"/>
   </feature>
 
+  <feature name="Downloader">
+    <param name="android-package" value="hr.integrator.cordova.plugins.downloader.Downloader"/>
+  </feature>
+
   
   <preference name="ScrollEnabled" value="false" />
   <preference name="BackupWebStorage" value="none" />

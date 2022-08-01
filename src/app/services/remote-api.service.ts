@@ -13,6 +13,22 @@ export class RemoteAPIService {
     }
 
     public getDownloadLinkForAppVersion(appVersion: IAppVersion): string {
-        return `https://www.arkon.solutions/api/AppStore/GetAppBinaries/${appVersion.id}`;
+        return `https://www.arkon.solutions/api/AppStore/GetAppBinaries/${appVersion.id}/${this.getAppVersionFileName(appVersion)}`;
+    }
+
+    public getAppVersionFileName(appVersion: IAppVersion): string {
+        return `arkon-checklist-${appVersion.versionNumber}.${this.getExtensionByPlatform(appVersion.platform)}`;
+    }
+
+    private getExtensionByPlatform(platform: string) {
+        let result = null;
+        if (!!platform) {
+            switch (platform) {
+              case "android":
+                result = "apk";
+                break;
+            }
+        }
+        return result;
     }
 }

@@ -3,7 +3,7 @@ import { AlertController, MenuController, NavController, ToastController } from 
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { ROUTER_NAVIGATION } from '@ngrx/router-store';
 import { Action, Store } from '@ngrx/store';
-import { EMPTY, of } from 'rxjs';
+import { of } from 'rxjs';
 import {
   catchError,
   filter,
@@ -22,6 +22,7 @@ import { selectRecognizeSpeechLanguage } from '../modules/settings-store/setting
 import { TranslateService } from '@ngx-translate/core';
 import { RemoteAPIService } from '../services/remote-api.service';
 import { MigrationService } from '../services/migration.service';
+import { Downloader, DownloadRequest, NotificationVisibility } from '@ionic-native/downloader/ngx';
 
 @Injectable()
 export class AppEffects implements OnInitEffects {
@@ -198,7 +199,25 @@ export class AppEffects implements OnInitEffects {
             .then((alert) => alert.present().then(() => alert.onDidDismiss()))
             .then((res) => {
               if (res.role === 'ok') {
-                window.open(this.remoteAPIService.getDownloadLinkForAppVersion(action.lastVersion));
+                let fileName = this.remoteAPIService.getAppVersionFileName(action.lastVersion);
+                var request: DownloadRequest = {
+                  uri: this.remoteAPIService.getDownloadLinkForAppVersion(action.lastVersion),
+                  title: fileName,
+                  description: '',
+                  mimeType: action.lastVersion.fileContentType,
+                  visibleInDownloadsUi: true,
+                  notificationVisibility: NotificationVisibility.VisibleNotifyCompleted,
+                  destinationInExternalFilesDir: {
+                      dirType: 'Downloads',
+                      subPath: fileName
+                  }
+                };
+
+                return this.downloader.download(request)
+                  .then((location: string) => console.log('!!!!!!!!!!!!!!!!!!!!!File downloaded at:'+location))
+                  .catch((error: any) => {
+                    this.store.dispatch(appActions.displayError({error: error}));
+                  });
               }
             });
 
@@ -225,7 +244,8 @@ export class AppEffects implements OnInitEffects {
     private translateService: TranslateService,
     private remoteAPIService: RemoteAPIService,
     private migrationService: MigrationService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private downloader: Downloader
   ) {}
 
   ngrxOnInitEffects(): Action {
