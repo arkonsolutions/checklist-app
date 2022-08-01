@@ -57,9 +57,10 @@ const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: Au
           translateService.setDefaultLang(defaultLocale);
 
           let settings = await configStorageService.restore<ISettingsState>("settings").toPromise();
+          let uiLanguage = !!settings ? settings.uiLanguage : defaultLocale;
           
-          return translateService.use(settings.uiLanguage).subscribe((res) => {
-            store.dispatch(appActions.discoveredPreferredLanguage({lng: settings.uiLanguage}));
+          return translateService.use(uiLanguage).subscribe((res) => {
+            store.dispatch(appActions.discoveredPreferredLanguage({lng: uiLanguage}));
           }, err => {
             store.dispatch(appActions.discoveredPreferredLanguage({lng: 'en-US'}));
           }, () => {
