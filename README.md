@@ -98,6 +98,23 @@ https://phrase.com/blog/posts/localizing-ionic-applications-with-ngx-translate/
 Приложение, при старте сравнивает свою версию и версию из последней миграции БД.
 В случае, если версия приложения больше, чем версия БД, значит произошло обновлнение ранее установленного приложения. Происходит поэтапное выполнение скриптов миграции БД. Каждый скрипт соовтетствует своей версии.
 
+# Обновление дистрибутива
+## Скачать файл
+https://ionicframework.com/docs/v5/native/file-transfer
+
+### При скачивании файла, возвращается ошибка 401 несмотря на то, что файл в источнике не ограничен
+https://stackoverflow.com/a/35381787/3201594
+## Открыть файл
+https://ionicframework.com/docs/native/file-opener
+https://forum.ionicframework.com/t/ionic-2-fileopener-open-an-apk-file-from-download-path/83499/3
+## При сборке ошибка Error: "package android.support.* does not exist"
+https://github.com/ionic-team/capacitor/issues/2822#issuecomment-637361632
+```
+npm install jetifier
+npx jetify
+npx cap sync android
+```
+
 
 ## Plugins
 https://ionicframework.com/docs/native/social-sharing
@@ -129,8 +146,3 @@ https://habr.com/ru/company/tinkoff/blog/497282/
 * store - boilerplate для store данного feature-модуля.
 * pages - компоненты, для которых описан роутинг, и которые доступны по определённому адресу. Как правило являются контейнерами.
 * components - Контейнеры, и простые компоненты, являющиеся строительными блоками для ui.
-
-
-# Проблемы - решения.
-# При скачивании файла, возвращается ошибка 401 несмотря на то, что файл в источнике не ограничен
-https://stackoverflow.com/a/35381787/3201594

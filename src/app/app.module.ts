@@ -37,6 +37,7 @@ import { MigrationService } from './services/migration.service';
 import { ConfigStorageService } from './services/config-storage.service';
 import { ISettingsState } from './modules/settings-store/settings.state';
 import { FileTransfer } from '@awesome-cordova-plugins/file-transfer/ngx';
+import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 
 const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: AuthService, store: Store, migrationService: MigrationService, translateService: TranslateService, configStorageService: ConfigStorageService) => {
   const res = () => { 
@@ -115,7 +116,8 @@ const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: Au
     GooglePlus,
     SocialSharing,
     FileChooser,
-    FileTransfer
+    FileTransfer,
+    FileOpener
   ],
   bootstrap: [AppComponent],
 })

@@ -25,6 +25,7 @@ import { MigrationService } from '../services/migration.service';
 
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@awesome-cordova-plugins/file-transfer/ngx';
 import * as AwesomeFile from '@awesome-cordova-plugins/file';
+import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 
 
 @Injectable()
@@ -239,7 +240,14 @@ export class AppEffects {
   binariesDownloadSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(appActions.AppActionsEnum.BinariesDownloadSuccess),
     switchMap(async ({filePath}) => {
-      console.log('!!!!!!!!!!!file downloaded', filePath);
+      this.fileOpener.open(
+        filePath,
+        'application/vnd.android.package-archive'
+      ).then((success) => {
+        console.log('!!!!!!!!!!success: ', success);
+      }, (err) => {
+        console.log('!!!!!!!!!!!!!!err: ', err);
+      });
     })
   ), {dispatch: false});
   binariesDownloadFailure$ = createEffect(() => this.actions$.pipe(
@@ -259,6 +267,7 @@ export class AppEffects {
     private remoteAPIService: RemoteAPIService,
     private migrationService: MigrationService,
     private alertController: AlertController,
-    private transfer: FileTransfer
+    private transfer: FileTransfer,
+    private fileOpener: FileOpener
   ) {}
 }
