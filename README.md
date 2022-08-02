@@ -117,6 +117,18 @@ npx cap sync android
 
 # Генерация ресурсов. Иконка и Splashscreen
 Утилита https://github.com/ionic-team/capacitor-assets
+## Генерация ресурвов для android
+1) Создавть в корне проекта папку `resources` со стркутурой:
+```
+resources/
+├── android/
+│   ├── icon-background.png
+│   └── icon-foreground.png
+├── icon.png
+└── splash.png
+```
+2)
+```cordova-res android --skip-config --copy```
 
 
 ## Plugins
