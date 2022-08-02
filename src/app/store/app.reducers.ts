@@ -1,6 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
 import * as appActions from './app.actions';
-import { selectIsCheckUpdatesProcess } from './app.selectors';
 import * as appState from './app.state';
 
 export const reducer = createReducer(
@@ -20,6 +19,12 @@ export const reducer = createReducer(
     ...state,
     preferredLanguage: lng
   })),
+
+  on(appActions.onLineStatusChanged, (state, {isOnLine}) => ({
+    ...state,
+    isOnLine: isOnLine
+  })),
+
 
   on(appActions.setAppVersion, (state, {appVersion}) => ({
     ...state,

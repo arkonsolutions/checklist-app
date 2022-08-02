@@ -98,7 +98,7 @@ https://phrase.com/blog/posts/localizing-ionic-applications-with-ngx-translate/
 Приложение, при старте сравнивает свою версию и версию из последней миграции БД.
 В случае, если версия приложения больше, чем версия БД, значит произошло обновлнение ранее установленного приложения. Происходит поэтапное выполнение скриптов миграции БД. Каждый скрипт соовтетствует своей версии.
 
-# Обновление дистрибутива
+# Обновление дистрибутива из приложения
 ## Скачать файл
 https://ionicframework.com/docs/v5/native/file-transfer
 
@@ -115,12 +115,19 @@ npx jetify
 npx cap sync android
 ```
 
+# Генерация ресурсов. Иконка и Splashscreen
+Утилита https://github.com/ionic-team/capacitor-assets
+
 
 ## Plugins
 https://ionicframework.com/docs/native/social-sharing
 https://ionicframework.com/docs/native/file/
 https://ionicframework.com/docs/v3/native/file-chooser/
-https://ionicframework.com/docs/native/globalization
+https://capacitorjs.com/docs/apis/network
+
+
+## Библиотеки
+https://github.com/ionic-team/capacitor-assets
 
 ## Материалы
 https://github.com/ngrx/platform/tree/master/projects/example-app

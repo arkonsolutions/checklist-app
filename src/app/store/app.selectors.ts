@@ -10,6 +10,11 @@ export const selectAppConfig = createSelector(
   (state: appState.State) => (!!state ? state.appConfig : null)
 );
 
+export const selectIsOnline = createSelector(
+  selectAppState,
+  (state: appState.State) => !!state ? state.isOnLine : false
+);
+
 export const selectPreferredLanguage = createSelector(
   selectAppState,
   (state: appState.State) => !!state ? state.preferredLanguage : null
@@ -34,8 +39,14 @@ export const selectIsBinariesDownloadProcess = createSelector(
   selectAppState,
   (state: appState.State) => !!state ? state.isBinariesDownloadProcess : false
 );
-export const selectIsUpdateCheckAvailable = createSelector(
+export const selectIsUpdateProcess = createSelector(
   selectIsCheckUpdatesProcess,
   selectIsBinariesDownloadProcess,
-  (isCheckUpdatesProcess, isBinariesDownloadProcess) => !isCheckUpdatesProcess && !isBinariesDownloadProcess
+  (isCheckUpdatesProcess, isBinariesDownloadProcess) => isCheckUpdatesProcess || isBinariesDownloadProcess
+);
+
+export const selectIsUpdateCheckAvailable = createSelector(
+  selectIsUpdateProcess,
+  selectIsOnline,
+  (isUpdateProcess, isOnline) => !isUpdateProcess && isOnline
 );

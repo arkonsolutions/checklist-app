@@ -3,6 +3,7 @@ import { AppConfig } from '../models/app-config.model';
 export const featureKey = 'app';
 
 export interface State {
+  isOnLine: boolean;
   appConfig: AppConfig;
   appVersion: string;
   preferredLanguage: string;
@@ -13,6 +14,7 @@ export interface State {
 }
 
 export const initialState: State = {
+  isOnLine: false,
   appConfig: {
     theme: null,
   },

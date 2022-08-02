@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { SpeechRecognition } from "@capacitor-community/speech-recognition";
 import * as appActions from './store/app.actions';
 import { Subject } from 'rxjs';
+import { Network } from '@capacitor/network';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,10 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    Network.addListener('networkStatusChange', status => {
+      this.store.dispatch(appActions.onLineStatusChanged({isOnLine: status.connected}));
+    });
+
     SpeechRecognition.available().then(async res => {
       let availableLanguages = [];
       if (res.available) {
@@ -28,10 +33,11 @@ export class AppComponent implements OnInit, OnDestroy {
         availableLanguages = (await SpeechRecognition.getSupportedLanguages()).languages;
       }
       this.store.dispatch(appActions.recognizeSpeechAvailable({isRecognizeSpeechAvailable: res.available, availableLanguages: availableLanguages}));
-    });
+    });    
   }
 
   ngOnDestroy(): void {
+    Network.removeAllListeners();
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
     SpeechRecognition.stop();

@@ -38,13 +38,20 @@ import { ConfigStorageService } from './services/config-storage.service';
 import { ISettingsState } from './modules/settings-store/settings.state';
 import { FileTransfer } from '@awesome-cordova-plugins/file-transfer/ngx';
 import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
+import { Network } from '@capacitor/network';
+
 
 const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: AuthService, store: Store, migrationService: MigrationService, translateService: TranslateService, configStorageService: ConfigStorageService) => {
   const res = () => { 
     return platform.ready()
       .then(() => dbService.initialize())
       .then(() => migrationService.migrateToVersion(environment.appVersion))
-      .then(() => {
+      .then(() =>{
+       return Network.getStatus().then(status => {
+          store.dispatch(appActions.onLineStatusChanged({isOnLine: status.connected})); 
+        });
+      })
+      .then(async () => {
         store.dispatch(appActions.setAppVersion({appVersion: environment.appVersion}));
         return new Promise(async (resolve: any) => {
           let userPrefferedLocale = Intl.DateTimeFormat().resolvedOptions().locale.toString();

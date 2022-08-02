@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
@@ -18,12 +18,13 @@ import * as syncActions from '../../../sync-store/sync.actions';
 import { selectAvailableUILanguages, selectIsHideCompletedTasks, selectisRecognitionWhenAdding, selectRecognizeSpeechLanguage, selectUILanguage, selectisCheckUpdatesAtStartup } from 'src/app/modules/settings-store/settings.selectors';
 import * as settingsActions from '../../../settings-store/settings.actions';
 import { AuthProviderEnum } from 'src/app/modules/auth-store/model/auth-provider.enum';
-import { selectIsRecognizeSpeechAvailable, selectRecognizeSpeechAvailableLanguages, selectIsCheckUpdatesProcess, selectIsBinariesDownloadProcess, selectIsUpdateCheckAvailable } from 'src/app/store/app.selectors';
+import { selectIsRecognizeSpeechAvailable, selectRecognizeSpeechAvailableLanguages, selectIsUpdateProcess, selectIsUpdateCheckAvailable } from 'src/app/store/app.selectors';
 
 @Component({
   selector: 'app-settings-page',
   templateUrl: './settings-page.component.html',
   styleUrls: ['./settings-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsPageComponent implements OnInit, OnDestroy {
 
@@ -38,6 +39,9 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
   public isImportDataProcess$: Observable<boolean> = this.store.select(selectIsImportDataProcess);
 
   public isUpdateCheckAvailable$: Observable<boolean> = this.store.select(selectIsUpdateCheckAvailable);
+  public isUpdateProcess$: Observable<boolean> = this.store.select(selectIsUpdateProcess);
+
+  public isButtonCheckUpdateDisabled$: Observable<boolean> = this.isUpdateCheckAvailable$.pipe(map((val) => !val));
   
   public isHideCompletedTasks$: Observable<boolean> = this.store.select(selectIsHideCompletedTasks);
   public recognizeSpeechLanguage$: Observable<string> = this.store.select(selectRecognizeSpeechLanguage);

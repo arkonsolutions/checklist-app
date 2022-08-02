@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AlertController, MenuController, NavController, ToastController } from '@ionic/angular';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATION } from '@ngrx/router-store';
-import { createAction, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import {
   catchError,
@@ -23,10 +23,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { RemoteAPIService } from '../services/remote-api.service';
 import { MigrationService } from '../services/migration.service';
 
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@awesome-cordova-plugins/file-transfer/ngx';
+import { FileTransfer, FileTransferObject } from '@awesome-cordova-plugins/file-transfer/ngx';
 import * as AwesomeFile from '@awesome-cordova-plugins/file';
 import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
-import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 
 
 @Injectable()
@@ -34,7 +33,12 @@ export class AppEffects {
 
   appInitialized$ = createEffect(() => this.actions$.pipe(
     ofType(appActions.AppActionsEnum.AppInitialized),
-    map(acction => appActions.appConfigRestore())
+    map(action => appActions.appConfigRestore())
+  ));
+
+  onLineStatusChanged$ = createEffect(() => this.actions$.pipe(
+    ofType(appActions.AppActionsEnum.OnLineStatusChanged),
+    map(({isOnLine}) => appActions.displayNotification({message: `online status: ${isOnLine}`, mode: 'Info'}))
   ));
 
   startNavigation$ = createEffect(

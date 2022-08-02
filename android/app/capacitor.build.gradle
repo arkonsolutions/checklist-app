@@ -12,6 +12,7 @@ dependencies {
     implementation project(':capacitor-community-speech-recognition')
     implementation project(':capacitor-device')
     implementation project(':capacitor-filesystem')
+    implementation project(':capacitor-network')
     implementation project(':capacitor-secure-storage-plugin')
     implementation "com.android.support:support-v4:27.+"
     implementation "com.google.android.gms:play-services-auth:15.0.1"

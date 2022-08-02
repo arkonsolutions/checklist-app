@@ -1,6 +1,6 @@
 {
   "name": "checklist-app",
-  "version": "0.0.22",
+  "version": "0.0.24",
   "author": "Sergey Wereteychenko",
   "homepage": "https://arkon.solutions/",
   "scripts": {
@@ -36,6 +36,7 @@
     "@capacitor/device": "^1.1.2",
     "@capacitor/filesystem": "^1.1.0",
     "@capacitor/ios": "~3.3.3",
+    "@capacitor/network": "^4.0.1",
     "@ionic-native/core": "5.36.0",
     "@ionic-native/file-chooser": "^5.36.0",
     "@ionic-native/sqlite": "5.36.0",

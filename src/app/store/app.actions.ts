@@ -6,6 +6,9 @@ export enum AppActionsEnum {
   /** Приложение инициализированно */
   AppInitialized = '[App] Initialized',
 
+  /** Изменился статус подключения к интернет */
+  OnLineStatusChanged = '[App] OnLineStatusChanged',
+
   /** Отобразить ошибку */
   DisplayError = '[App] DisplayError',
 
@@ -55,6 +58,11 @@ export enum AppActionsEnum {
 
 export const appInitialized = createAction(
   AppActionsEnum.AppInitialized
+);
+
+export const onLineStatusChanged = createAction(
+  AppActionsEnum.OnLineStatusChanged,
+  props<{ isOnLine: boolean }>()
 );
 
 export const displayError = createAction(
@@ -155,6 +163,7 @@ export const binariesDownloadFailure = createAction(
 
 const all = union({
   appInitialized,
+  onLineStatusChanged,
   displayError,
   displayNotification,
   navigateBack,
