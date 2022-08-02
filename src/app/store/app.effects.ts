@@ -36,11 +36,6 @@ export class AppEffects {
     map(action => appActions.appConfigRestore())
   ));
 
-  onLineStatusChanged$ = createEffect(() => this.actions$.pipe(
-    ofType(appActions.AppActionsEnum.OnLineStatusChanged),
-    map(({isOnLine}) => appActions.displayNotification({message: `online status: ${isOnLine}`, mode: 'Info'}))
-  ));
-
   startNavigation$ = createEffect(
     () =>
       this.actions$.pipe(
