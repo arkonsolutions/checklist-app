@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">checklist-app</string>
-    <string name="title_activity_main">checklist-app</string>
+    <string name="app_name">Checklist</string>
+    <string name="title_activity_main">Checklist</string>
     <string name="package_name">solutions.arkon.checklist</string>
     <string name="custom_url_scheme">solutions.arkon.checklist</string>
 </resources>
