@@ -1,6 +1,6 @@
 {
     "pageChecklist": {
-        "name": "Чеклист",
+        "name": "Чек-лист",
         "internal": {
             "goToParent": "Перейти к родительскому элементу",
             "goToHome": "Домой",
@@ -9,10 +9,10 @@
             "taskIsCompleted": "Задача \"{{title}}\" выполнена.",
             "taskMustBeCompleted": "Задача \"{{title}}\" ожидает выполнения.",
             "copyEntryHeader": "Копирование записи",
-            "createChecklist": "Создать чеклист",
+            "createChecklist": "Создать чек-лист",
             "createTemplate": "Создать шаблон",
             "newTemplateCreated": "Создан новый шаблон \"{{title}}\".",
-            "newChecklistCreated": "Создан новый чеклист \"{{title}}\"."
+            "newChecklistCreated": "Создан новый чек-лист \"{{title}}\"."
         },
         "btnAdd": "Добавить",
         "btnAddSubtask": "Добавить подзадачу",
