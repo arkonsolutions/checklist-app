@@ -128,7 +128,7 @@ resources/
 └── splash.png
 ```
 2)
-```cordova-res android --skip-config --copy```
+```cordova-res android --skip-config --copy --icon-background-source '#00FF00'```
 
 
 ## Plugins
