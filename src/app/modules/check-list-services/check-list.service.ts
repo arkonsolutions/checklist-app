@@ -152,7 +152,6 @@ private recalculateParentsIsDone = (
 
 /** Собрать строку для педедачи чек-листа в виде текстового сообщения */
 public humanizeChecklist(rootItemId: string, items: ICheckListItem[]): string {
-
   let serializedGraph = "";
 
   const serializeItem = (indent: number, item: ICheckListItem): string => {
@@ -164,10 +163,18 @@ public humanizeChecklist(rootItemId: string, items: ICheckListItem[]): string {
     return result;
   }
 
-  const rootItem = items.find(itm => itm.id === rootItemId);
-  if (!!rootItem) {
-    serializedGraph = serializeItem(0, rootItem);
+  if (!!rootItemId) {
+    const rootItem = items.find(itm => itm.id == rootItemId);
+    if (!!rootItem) {
+      serializedGraph = serializeItem(0, rootItem);
+    }
+  } else {
+    const rootItems = items.filter(itm => itm.parentId == rootItemId);
+    rootItems.forEach((rItm, rIdx, rArr) => {
+      serializedGraph += serializeItem(0, rItm);
+    });
   }
+  
   
   return serializedGraph;
 }

@@ -78,16 +78,17 @@ export class CheckListDBService extends CheckListService {
           return null;
         } else {
           const doneCondition = skipDone ? "and isDone = 0" : "";
+          const idCondition = !!id ? 'id = ?' : 'parentId IS NULL';
           const statement = `
             WITH RECURSIVE children_tree(id, parentId)
             AS (
-                SELECT id, parentId from [CheckList_Aggregated] where id = ? ${doneCondition}
+                SELECT id, parentId from [CheckList_Aggregated] where ${idCondition} ${doneCondition}
                 UNION ALL
                 SELECT cla.id, cla.parentId FROM [CheckList_Aggregated] AS cla INNER JOIN children_tree ct ON ct.id = cla.parentId
             )
-            SELECT * FROM children_tree AS ct
+            SELECT cla.* FROM children_tree AS ct
             LEFT JOIN [CheckList_Aggregated] AS cla USING (id)`;
-          return await this.dbService.executeSql({statement, args:[String(id)]});
+          return await this.dbService.executeSql({statement, args:[...(!!id ? [String(id)] : [])]});
         }
       }),
       map((sqlRes: any) => {

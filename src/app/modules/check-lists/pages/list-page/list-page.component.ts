@@ -81,6 +81,14 @@ export class ListPageComponent extends PageComponent implements OnInit, OnDestro
         isChildrenLoading || isItemWithParentsLoading || isReplicationProcess || isEdit || isCreate || isRemove
     )
   );
+  public isShareAvailable$: Observable<boolean> = combineLatest([
+    this.target$,
+    this.children$
+  ]).pipe(
+    map(([target, children]) => {
+      return !!target.id || children.length > 0
+    })
+  );
   
 
   public addTaskButtonKey$ = this.target$.pipe(

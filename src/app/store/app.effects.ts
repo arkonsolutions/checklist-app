@@ -126,7 +126,6 @@ export class AppEffects {
       this.actions$.pipe(
         ofType(appActions.AppActionsEnum.SocialShare),
         switchMap(async (payload) => {
-          console.log('!!!!!!!!!!kukuku');
           let sharingRes = await this.socialSharing.share(payload.message, payload.subject, payload.fileUri, null);
           return payload;
         }),
