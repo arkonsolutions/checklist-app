@@ -28,9 +28,9 @@ export enum AppActionsEnum {
   AppConfigRestoreFailure = '[App] AppConfigRestore Failure',
 
   /** Шарить файл */
-  FileShare = '[App] FileShare',
-  FileShareSuccess = '[App] FileShare Success',
-  FileShareFailure = '[App] FileShare Failure',
+  SocialShare = '[App] SocialShare',
+  SocialShareSuccess = '[App] SocialShare Success',
+  SocialShareFailure = '[App] SocialShare Failure',
 
   /** Распознать голос */
   RecognizeSpeech = '[App] RecognizeSpeech',
@@ -95,16 +95,16 @@ export const appConfigRestoreFailure = createAction(
   props<{ error: any }>()
 );
 
-export const fileShare = createAction(
-  AppActionsEnum.FileShare,
-  props<{uri: string}>()
+export const socialShare = createAction(
+  AppActionsEnum.SocialShare,
+  props<{subject?: string, message?: string, fileUri?: string}>()
 );
-export const fileShareSuccess = createAction(
-  AppActionsEnum.FileShareSuccess,
-  props<{uri: string}>()
+export const socialShareSuccess = createAction(
+  AppActionsEnum.SocialShareSuccess,
+  props<{subject?: string, message?: string, fileUri?: string}>()
 );
-export const fileShareFailure = createAction(
-  AppActionsEnum.FileShareFailure,
+export const socialShareFailure = createAction(
+  AppActionsEnum.SocialShareFailure,
   props<{error: any}>()
 )
 
@@ -173,9 +173,9 @@ const all = union({
   appConfigRestore,
   appConfigRestoreSuccess,
   appConfigRestoreFailure,
-  fileShare,
-  fileShareSuccess,
-  fileShareFailure,
+  socialShare,
+  socialShareSuccess,
+  socialShareFailure,
   recognizeSpeech,
   recognizeSpeechSuccess,
   recognizeSpeechFailure,

@@ -246,5 +246,27 @@ export const checklistReducer = createReducer(
         childrenDone: null
       }))
     })
+  ),
+
+  on(
+    checklistActions.shareTarget,
+    (state, payload) => ({
+      ...state,
+      isShareTargetGraphLoading: true
+    })
+  ),
+  on(
+    checklistActions.shareTargetLoadGraphSuccess,
+    (state, payload) => ({
+      ...state,
+      isShareTargetGraphLoading: false
+    })
+  ),
+  on(
+    checklistActions.shareTargetLoadGraphFailure,
+    (state, payload) => ({
+      ...state,
+      isShareTargetGraphLoading: false
+    })
   )
 );

@@ -130,3 +130,8 @@ export const selectIsItemWithParentBranchLoadingForTarget = createSelector(
     selectCheckListState,
     (state: ICheckListState) => (!!state ? state.isRemoveItemSaving : false)
   );
+
+  export const selectIsShareTargetGraphLoading = createSelector(
+    selectCheckListState,
+    (state: ICheckListState) => (!!state ? state.isShareTargetGraphLoading: false)
+  );

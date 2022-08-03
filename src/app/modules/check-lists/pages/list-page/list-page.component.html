@@ -23,6 +23,9 @@
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
+      <ion-button [disabled]="isShareTargetProcess$ | async" (click)="onShareClick()">
+        <ion-icon name="share-social-outline"></ion-icon>
+      </ion-button>
       <ion-button (click)="onReplicateTargetClick()" [disabled]="isReplicationProcess$ | async">
         <ion-icon name="documents-outline"></ion-icon>
         <span class="hide-p">&nbsp;{{ 'pageChecklist.btnReplicate' | translate }}</span>

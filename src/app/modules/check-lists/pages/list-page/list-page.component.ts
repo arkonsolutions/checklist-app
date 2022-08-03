@@ -19,6 +19,7 @@ import {
   switchTargetTo,
   toggleItemIsDone,
   replicateTarget,
+  shareTarget,
 } from '../../store/check-lists.actions';
 import {
   selectIsChildrenLoadingForTarget,
@@ -33,6 +34,7 @@ import {
   selectIsCreateItemSaving,
   selectIsRemoveItemSaving,
   selectIsReplicateSaving,
+  selectIsShareTargetGraphLoading,
 } from '../../store/check-lists.selectors';
 import { CheckListConfig } from '../../models/check-list-config.model';
 import { CheckListMode } from '../../store/check-lists.state';
@@ -54,6 +56,11 @@ export class ListPageComponent extends PageComponent implements OnInit, OnDestro
     this.store.select(selectIsReplicateSaving)
   ]).pipe(
     map(([isReplicateGraphLoading, isReplicateSaving]) => isReplicateGraphLoading || isReplicateSaving)
+  );
+  public isShareTargetProcess$: Observable<boolean> = combineLatest([
+    this.store.select(selectIsShareTargetGraphLoading)
+  ]).pipe(
+    map(([isShareTargetGraphLoading]) => isShareTargetGraphLoading)
   );
   public isEditItemSaving$ = this.store.select(selectIsEditItemSaving);
   public isCreateItemSaving$ = this.store.select(selectIsCreateItemSaving);
@@ -166,5 +173,9 @@ export class ListPageComponent extends PageComponent implements OnInit, OnDestro
 
   public onReplicateTargetClick() {
     this.store.dispatch(replicateTarget());
+  }
+
+  public onShareClick() {
+    this.store.dispatch(shareTarget());
   }
 }

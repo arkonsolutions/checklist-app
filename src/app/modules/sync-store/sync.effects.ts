@@ -166,7 +166,7 @@ export class SyncEffects implements OnInitEffects {
         .then((alert) => alert.present().then(() => alert.onDidDismiss()))
         .then((res) => {
           if (res.role === 'ok') {
-            this.store.dispatch(appActions.fileShare({uri: action.uri}));
+            this.store.dispatch(appActions.socialShare({fileUri: action.uri}));
           }
         });
     })

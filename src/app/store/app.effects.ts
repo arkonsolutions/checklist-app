@@ -122,20 +122,21 @@ export class AppEffects {
     )
   );
 
-  fileShare$ = createEffect(() => 
+  socialShare$ = createEffect(() => 
       this.actions$.pipe(
-        ofType(appActions.AppActionsEnum.FileShare),
-        switchMap(async (action) => {
-          let sharingRes = await this.socialSharing.share(null, null, action.uri, null);
-          return action.uri;
+        ofType(appActions.AppActionsEnum.SocialShare),
+        switchMap(async (payload) => {
+          console.log('!!!!!!!!!!kukuku');
+          let sharingRes = await this.socialSharing.share(payload.message, payload.subject, payload.fileUri, null);
+          return payload;
         }),
-        map((uri) => appActions.fileShareSuccess({uri: uri})),
-        catchError((err) => of(appActions.fileShareFailure(err)))
+        map((payload) => appActions.socialShareSuccess(payload)),
+        catchError((err) => of(appActions.socialShareFailure(err)))
       )
   );
-  fileShareFailure$ = createEffect(() =>
+  socialShareFailure$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(appActions.AppActionsEnum.FileShareFailure),
+      ofType(appActions.AppActionsEnum.SocialShareFailure),
       map((action) => appActions.displayError({ error: action.error }))
     )
   );

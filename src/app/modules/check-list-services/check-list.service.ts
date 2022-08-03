@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { time } from 'console';
 import { EMPTY, Observable, of } from 'rxjs';
 import { CheckListConfig } from '../check-lists/models/check-list-config.model';
 import { ICheckListItem } from './model/check-list-item.model';
@@ -149,6 +150,27 @@ private recalculateParentsIsDone = (
 };
 
 
+/** Собрать строку для педедачи чек-листа в виде текстового сообщения */
+public humanizeChecklist(rootItemId: string, items: ICheckListItem[]): string {
+
+  let serializedGraph = "";
+
+  const serializeItem = (indent: number, item: ICheckListItem): string => {
+    let result = '  '.repeat(indent)+`* ${item.title}\n`;
+    const children = items.filter(itm => itm.parentId === item.id);
+    children.forEach((cItm, cIdx, cArr) => {
+      result += serializeItem(indent + 1, cItm);
+    });
+    return result;
+  }
+
+  const rootItem = items.find(itm => itm.id === rootItemId);
+  if (!!rootItem) {
+    serializedGraph = serializeItem(0, rootItem);
+  }
+  
+  return serializedGraph;
+}
 
 
   /** Получить элемент и список элементов цепочки родительских. */

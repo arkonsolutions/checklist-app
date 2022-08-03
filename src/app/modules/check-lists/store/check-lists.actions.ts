@@ -77,7 +77,12 @@ export enum ECheckListActions {
   ReplicateCheckListSaveFailure = '[CheckList] ReplicateCheckList Save Failure',
 
   /** Очистить кеш загруженых элементов и перезагрузить текущий. Требуется после импорта данных. */
-  ReloadCache = '[CheckList] ReloadCache'
+  ReloadCache = '[CheckList] ReloadCache',
+
+  /** Поделиться */
+  ShareTarget = '[CheckList] ShareTarget',
+  ShareTargetLoadGraphSuccess = '[CheckList] ShareTarget LoadGraph Success',
+  ShareTargetLoadGraphFailure = '[CheckList] ShareTarget LoadGraph Failure'
 }
 
 export const ensureTarget = createAction(ECheckListActions.EnsureTarget);
@@ -263,6 +268,18 @@ export const reloadCache = createAction(
   ECheckListActions.ReloadCache
 );
 
+export const shareTarget = createAction(
+  ECheckListActions.ShareTarget
+);
+export const shareTargetLoadGraphSuccess = createAction(
+  ECheckListActions.ShareTargetLoadGraphSuccess,
+  props<{ id: string, loadedItems: ICheckListItem[] }>()
+);
+export const shareTargetLoadGraphFailure = createAction(
+  ECheckListActions.ShareTargetLoadGraphFailure,
+  props<{ id: string, error: any }>()
+);
+
 const all = union({
   ensureTarget,
   ensureItemWithParentBranchForTarget,
@@ -310,7 +327,10 @@ const all = union({
   replicateCheckListSave,
   replicateCheckListSaveSuccess,
   replicateCheckListSaveFailure,
-  reloadCache
+  reloadCache,
+  shareTarget,
+  shareTargetLoadGraphSuccess,
+  shareTargetLoadGraphFailure
 });
 
 export type CheckListActionsUnion = typeof all;

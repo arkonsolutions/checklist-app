@@ -789,6 +789,43 @@ reloadCache$ = createEffect(() => this.actions$.pipe(
   map(() => checkListActions.ensureTarget())
 ));
 
+shareTarget$ = createEffect(() => this.actions$.pipe(
+  ofType(ECheckListActions.ShareTarget),
+  withLatestFrom(this.store.select(selectTargetId), this.store.select(selectIsHideCompletedTasks)),
+  switchMap(([action, targetId, isHideCompletedTasks]) => {
+    return this.service.getItemWithChildrenTree(targetId, isHideCompletedTasks).pipe(
+      tap((res) => {
+        if (res.length === 0) {
+          throw new Error(this.translateService.instant("common.itemNotFound"));
+        }
+      }),
+      map((res) => {
+        return checkListActions.shareTargetLoadGraphSuccess({
+          id: targetId,
+          loadedItems: res
+        });
+      }),
+      catchError((error) => {
+        return of(checkListActions.shareTargetLoadGraphFailure({id: targetId, error: error}));
+      })
+    );
+  })
+));
+shareTargetLoadGraphSuccess$ = createEffect(() => 
+    this.actions$.pipe(
+      ofType(ECheckListActions.ShareTargetLoadGraphSuccess),
+      map(({id, loadedItems}) => {
+        return appActions.socialShare({message: this.service.humanizeChecklist(id, loadedItems)});
+      })
+    )
+);
+shareTargetLoadGraphFailure$ = createEffect(() => 
+    this.actions$.pipe(
+      ofType(ECheckListActions.ShareTargetLoadGraphFailure),
+      map(({id, error}) => appActions.displayError({ error: error.error }))
+    )
+  );
+
   constructor(
     private actions$: Actions<checkListActions.CheckListActionsUnion>,
     private service: CheckListService,

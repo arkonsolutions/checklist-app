@@ -23,6 +23,7 @@ export interface ICheckListState {
   isRemoveItemSaving: boolean;
   isReplicateGraphLoading: boolean;
   isReplicateSaving: boolean;
+  isShareTargetGraphLoading: boolean;
   /** Конфигурация ui feature-модуля */
   config: CheckListConfig;
 }
@@ -49,6 +50,7 @@ export const initialCheckListState: ICheckListState = {
   isRemoveItemSaving: false,
   isReplicateGraphLoading: false,
   isReplicateSaving: false,
+  isShareTargetGraphLoading: false,
   config: {
     isShowDetails: true,
   }
