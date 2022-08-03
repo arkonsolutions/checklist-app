@@ -11,9 +11,7 @@
     </ion-title>
     <ion-progress-bar *ngIf="busy$ | async" type="indeterminate"></ion-progress-bar>
   </ion-toolbar>
-</ion-header>
-<ion-content [fullscreen]="true" *ngIf="(target$ | async) as target">
-  <ion-toolbar color="tertiary">
+  <ion-toolbar color="tertiary" *ngIf="(target$ | async) as target">
     <ion-buttons slot="start" *ngIf="!!target.id">
       <ion-button (click)="navTo(target.parentId)">
         <ion-icon name="arrow-up-outline"></ion-icon>
@@ -47,7 +45,8 @@
       </ng-container>
     </ion-buttons>
   </ion-toolbar>
-
+</ion-header>
+<ion-content [fullscreen]="true" *ngIf="(target$ | async) as target">
   <ion-list lines="full" *ngIf="!!target.id">
     <ion-item>
       <ion-label>{{target.title}}</ion-label>
