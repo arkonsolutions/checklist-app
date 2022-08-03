@@ -64,7 +64,8 @@
         "lblAppVersion": "Версия приложения:",
         "lblAuthor": "Автор:",
         "lblAuthorName": "Веретейченко Сергей",
-        "lblSite": "Сайт:"
+        "lblSite": "Сайт:",
+        "lblTelegram": "Telegram - канал:"
     },
     "common": {
         "letSelect": "Выберите...",

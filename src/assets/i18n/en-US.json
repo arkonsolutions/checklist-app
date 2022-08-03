@@ -64,7 +64,8 @@
         "lblAppVersion": "Application version:",
         "lblAuthor": "Author:",
         "lblAuthorName": "Wereteychenko Sergey",
-        "lblSite": "Site:"
+        "lblSite": "Site:",
+        "lblTelegram": "Telegram - channel:"
     },
     "common": {
         "letSelect": "Select...",
