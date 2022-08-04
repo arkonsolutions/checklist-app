@@ -145,10 +145,13 @@ export class AppEffects {
     withLatestFrom(this.store.select(appSelectors.selectIsRecognizeSpeechAvailable)),
     switchMap(async ([action, isRecognizeSpeechAvailable]) => {
       if (isRecognizeSpeechAvailable) {   
-        SpeechRecognition.hasPermission().then(res => {
+        await SpeechRecognition.hasPermission().then(async res => {
+          console.log('!!!!!!!!!!!!speech recognition permissions', JSON.stringify(res));
           if (!res.permission) {
-            SpeechRecognition.requestPermission().then(
+            console.log('!!!!!!!!!!!!before request permission');
+            await SpeechRecognition.requestPermission().then(
               (value: void) => {
+                console.log('!!!!!!!!!!!!!!value void', JSON.stringify(value));
                 this.store.dispatch(appActions.recognizeSpeechProcess());
               }, 
               (reason: any) => {this.store.dispatch(appActions.recognizeSpeechFailure({error: {message: String(reason)}}));}
