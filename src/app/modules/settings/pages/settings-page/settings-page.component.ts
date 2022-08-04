@@ -60,8 +60,8 @@ export class SettingsPageComponent implements OnInit, OnDestroy {
     )
   );
 
-  public selectIsRecognizeSpeechAvailable$ = this.store.select(selectIsRecognizeSpeechAvailable);
-  public selectRecognizeSpeechAvailableLanguages$ = this.store.select(selectRecognizeSpeechAvailableLanguages)
+  public isRecognizeSpeechAvailable$ = this.store.select(selectIsRecognizeSpeechAvailable);
+  public recognizeSpeechAvailableLanguages$ = this.store.select(selectRecognizeSpeechAvailableLanguages)
 
   constructor(
     private store: Store

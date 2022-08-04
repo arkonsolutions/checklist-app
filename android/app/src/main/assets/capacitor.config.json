@@ -21,8 +21,5 @@
 			"WEB_APPLICATION_CLIENT_ID": "",
 			"REVERSED_CLIENT_ID": ""
 		}
-	},
-	"server": {
-		"url": "http://192.168.0.201:8100"
 	}
 }

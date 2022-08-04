@@ -87,6 +87,7 @@
     "app": {
         "recognitionDoNotAvailable": "Распознавание речи недоступно на устройстве.",
         "recognitionWindowTitle": "Диктуйте...",
+        "recognitionMicrophoneNotPermitted": "Для распознавания речи требуется включить разрешения на использования микрофона для этого приложения. Это возможно сделать вручную в свойствах приложеиния.",
         "errorMessage": "Ошибка: {{message}}",
         "notifyRecognitionStarted": "Распознование речи: продиктуйте текст в микрофон...",
         "notifyLastVersionInstalled": "У вас установлена самая новая версия приложения!",

@@ -136,6 +136,7 @@ https://ionicframework.com/docs/native/social-sharing
 https://ionicframework.com/docs/native/file/
 https://ionicframework.com/docs/v3/native/file-chooser/
 https://capacitorjs.com/docs/apis/network
+https://ionicframework.com/docs/v3/native/android-permissions/
 
 
 ## Библиотеки

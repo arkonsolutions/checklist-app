@@ -4,7 +4,7 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-buttons slot="end">     
-      <ion-button fill="outline" (click)="onAddClick()" [disabled]="isCreateItemSaving$ | async">{{(addTaskButtonKey$ | async) | translate}}<ion-icon *ngIf="isRecognitionWhenAdding$ | async" name="mic-outline"></ion-icon></ion-button>
+      <ion-button fill="outline" (click)="onAddClick()" [disabled]="isCreateItemSaving$ | async">{{(addTaskButtonKey$ | async) | translate}}<ion-icon *ngIf="isMicrophoneIconVisible$ | async" name="mic-outline"></ion-icon></ion-button>
     </ion-buttons>
     <ion-title>
       {{ (pageTitleKey$ | async) | translate }}

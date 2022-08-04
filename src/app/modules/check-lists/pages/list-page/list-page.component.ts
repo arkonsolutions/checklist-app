@@ -39,6 +39,7 @@ import {
 import { CheckListConfig } from '../../models/check-list-config.model';
 import { CheckListMode } from '../../store/check-lists.state';
 import { selectisRecognitionWhenAdding } from 'src/app/modules/settings-store/settings.selectors';
+import { selectIsRecognizeSpeechAvailable } from 'src/app/store/app.selectors';
 
 @Component({
   selector: 'app-list-page',
@@ -89,7 +90,6 @@ export class ListPageComponent extends PageComponent implements OnInit, OnDestro
       return !!target.id || children.length > 0
     })
   );
-  
 
   public addTaskButtonKey$ = this.target$.pipe(
     map(target => {
@@ -122,6 +122,16 @@ export class ListPageComponent extends PageComponent implements OnInit, OnDestro
   )
 
   public isRecognitionWhenAdding$: Observable<boolean> = this.store.select(selectisRecognitionWhenAdding);
+  public isRecognizeSpeechAvailable$ = this.store.select(selectIsRecognizeSpeechAvailable);
+  public isMicrophoneIconVisible$: Observable<boolean> = combineLatest([
+    this.isRecognitionWhenAdding$,
+    this.isRecognizeSpeechAvailable$
+  ]).pipe(
+    takeUntil(this.unsubscribe$),
+    map(([isRecognitionWhenAdding, isRecognizeSpeechAvailable]) => {
+      return !!isRecognitionWhenAdding && !!isRecognizeSpeechAvailable
+    })
+  );
 
   constructor(
     store: Store

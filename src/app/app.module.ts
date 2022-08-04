@@ -39,6 +39,7 @@ import { ISettingsState } from './modules/settings-store/settings.state';
 import { FileTransfer } from '@awesome-cordova-plugins/file-transfer/ngx';
 import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 import { Network } from '@capacitor/network';
+import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 
 
 const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: AuthService, store: Store, migrationService: MigrationService, translateService: TranslateService, configStorageService: ConfigStorageService) => {
@@ -126,7 +127,8 @@ const appInitFactory = (dbService: DataBaseService, platform: Platform, auth: Au
     SocialSharing,
     FileChooser,
     FileTransfer,
-    FileOpener
+    FileOpener,
+    AndroidPermissions
   ],
   bootstrap: [AppComponent],
 })

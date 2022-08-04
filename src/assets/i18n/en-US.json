@@ -87,6 +87,7 @@
     "app": {
         "recognitionDoNotAvailable": "Speech recognition is not available on the device.",
         "recognitionWindowTitle": "Dictate the text...",
+        "recognitionMicrophoneNotPermitted": "Speech recognition requires you to enable microphone permissions for this application. This can be done manually in the application properties.",
         "errorMessage": "Error: {{message}}",
         "notifyRecognitionStarted": "Speech recognition: Speak text into the microphone...",
         "notifyLastVersionInstalled": "You have the last version of the app installed!",

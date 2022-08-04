@@ -87,16 +87,16 @@
         <ion-toggle [checked]="isHideCompletedTasks$ | async" (ionChange)="toggleHideCompletedTasks()"></ion-toggle>
       </ion-item>
 
-      <ion-item [disabled]="!(selectIsRecognizeSpeechAvailable$ | async)">
+      <ion-item [disabled]="!(isRecognizeSpeechAvailable$ | async)">
         <ion-label>
           <h2>{{'pageSettings.group.general.recognizeSpeechLanguage' | translate}}</h2>
         </ion-label>
         <ion-select placeholder="{{'common.letSelect' | translate}}" [ngModel]="recognizeSpeechLanguage$ | async" (ngModelChange)="onSelectRecognizeSpeechLanguage($event)">
-          <ion-select-option [value]="lng" *ngFor="let lng of selectRecognizeSpeechAvailableLanguages$ | async">{{lng}}</ion-select-option>
+          <ion-select-option [value]="lng" *ngFor="let lng of recognizeSpeechAvailableLanguages$ | async">{{lng}}</ion-select-option>
         </ion-select>
       </ion-item>
 
-      <ion-item [disabled]="!(selectIsRecognizeSpeechAvailable$ | async)">
+      <ion-item [disabled]="!(isRecognizeSpeechAvailable$ | async)">
         <ion-label>
           <h2>{{'pageSettings.group.general.recognitionWhenAdding' | translate}}</h2>
         </ion-label>

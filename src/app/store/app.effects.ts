@@ -26,6 +26,7 @@ import { MigrationService } from '../services/migration.service';
 import { FileTransfer, FileTransferObject } from '@awesome-cordova-plugins/file-transfer/ngx';
 import * as AwesomeFile from '@awesome-cordova-plugins/file';
 import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
+import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
 
 
 @Injectable()
@@ -144,25 +145,21 @@ export class AppEffects {
     ofType(appActions.AppActionsEnum.RecognizeSpeech),
     withLatestFrom(this.store.select(appSelectors.selectIsRecognizeSpeechAvailable)),
     switchMap(async ([action, isRecognizeSpeechAvailable]) => {
-      if (isRecognizeSpeechAvailable) {   
-        await SpeechRecognition.hasPermission().then(async res => {
-          console.log('!!!!!!!!!!!!speech recognition permissions', JSON.stringify(res));
-          if (!res.permission) {
-            console.log('!!!!!!!!!!!!before request permission');
-            await SpeechRecognition.requestPermission().then(
-              (value: void) => {
-                console.log('!!!!!!!!!!!!!!value void', JSON.stringify(value));
-                this.store.dispatch(appActions.recognizeSpeechProcess());
-              }, 
-              (reason: any) => {this.store.dispatch(appActions.recognizeSpeechFailure({error: {message: String(reason)}}));}
-            );
-          } else {
+
+      const micPermission = "android.permission.RECORD_AUDIO";
+      this.androidPermissions.hasPermission(micPermission).then(async pRes => {
+        if (!pRes.hasPermission) {
+          let requestPermissionResponse = await this.androidPermissions.requestPermission(micPermission);
+          if (requestPermissionResponse.hasPermission) {
             this.store.dispatch(appActions.recognizeSpeechProcess());
+          } else {
+            this.store.dispatch(appActions.recognizeSpeechFailure({error: {message: this.translateService.instant("app.recognitionMicrophoneNotPermitted")}}));
           }
-        });
-      } else {
-        this.store.dispatch(appActions.recognizeSpeechFailure({error: {message: this.translateService.instant("app.recognitionDoNotAvailable")}}));
-      }
+        } else {
+          this.store.dispatch(appActions.recognizeSpeechProcess());
+        }
+      });
+
     })
   ), {dispatch: false});
   recognizeSpeechProcess$ = createEffect(() => this.actions$.pipe(
@@ -179,6 +176,12 @@ export class AppEffects {
       });
     }),
   ), {dispatch: false});
+  recognizeSpeechFailure$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(appActions.AppActionsEnum.RecognizeSpeechFailure),
+      map((action) => appActions.displayError({ error: action.error.message }))
+    )
+  );
 
   checkUpdates$ = createEffect(() => this.actions$.pipe(
     ofType(appActions.AppActionsEnum.CheckUpdates),
@@ -272,6 +275,7 @@ export class AppEffects {
     private migrationService: MigrationService,
     private alertController: AlertController,
     private transfer: FileTransfer,
-    private fileOpener: FileOpener
+    private fileOpener: FileOpener,
+    private androidPermissions: AndroidPermissions
   ) {}
 }
