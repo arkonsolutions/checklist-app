@@ -27,4 +27,8 @@
         --padding-start: 0px;
         --inner-padding-start: 0px;
     }
+
+    ion-item[slot=end] {
+        margin-inline-start: 0px;
+    }
 }
