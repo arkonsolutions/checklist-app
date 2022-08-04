@@ -15,4 +15,16 @@
     ion-icon[slot=end] {
         margin-inline-start: 0px;
     }
+
+    ion-item.end-item-holder {
+        --padding-end: 0px;
+        --inner-padding-end: 0px;
+        --ripple-color: transparent;
+        --background-hover: transparent;
+    }
+
+    ion-item.start-item-holder {
+        --padding-start: 0px;
+        --inner-padding-start: 0px;
+    }
 }
