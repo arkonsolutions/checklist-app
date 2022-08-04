@@ -79,7 +79,8 @@ export enum ECheckListActions {
   /** Очистить кеш загруженых элементов и перезагрузить текущий. Требуется после импорта данных. */
   ReloadCache = '[CheckList] ReloadCache',
 
-  /** Поделиться */
+  /** Поделиться Чек-листом */
+  ShareTargetOptions = '[CheckList] ShareTargetOptions',
   ShareTarget = '[CheckList] ShareTarget',
   ShareTargetLoadGraphSuccess = '[CheckList] ShareTarget LoadGraph Success',
   ShareTargetLoadGraphFailure = '[CheckList] ShareTarget LoadGraph Failure'
@@ -268,6 +269,9 @@ export const reloadCache = createAction(
   ECheckListActions.ReloadCache
 );
 
+export const shareTargetOptions = createAction(
+  ECheckListActions.ShareTargetOptions
+);
 export const shareTarget = createAction(
   ECheckListActions.ShareTarget
 );
@@ -328,6 +332,7 @@ const all = union({
   replicateCheckListSaveSuccess,
   replicateCheckListSaveFailure,
   reloadCache,
+  shareTargetOptions,
   shareTarget,
   shareTargetLoadGraphSuccess,
   shareTargetLoadGraphFailure

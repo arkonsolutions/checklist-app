@@ -158,7 +158,7 @@ export class SyncEffects implements OnInitEffects {
               cssClass: 'secondary',
             },
             {
-              text: this.translateService.instant("sync.share"),
+              text: this.translateService.instant("common.share"),
               role: 'ok',
             },
           ],

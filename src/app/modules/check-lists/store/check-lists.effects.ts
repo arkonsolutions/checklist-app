@@ -789,6 +789,45 @@ reloadCache$ = createEffect(() => this.actions$.pipe(
   map(() => checkListActions.ensureTarget())
 ));
 
+shareTargetOptions$ = createEffect(() => this.actions$.pipe(
+  ofType(ECheckListActions.ShareTargetOptions),
+  tap(async() => {
+    let optionIncludeNestedChecked = false;
+    const alert = await this.alertController.create({
+      header: this.translateService.instant("pageChecklist.internal.shareChecklistAlert.title"),
+      message: this.translateService.instant("pageChecklist.internal.shareChecklistAlert.message"),
+      buttons: [
+        {
+          text: this.translateService.instant("common.cancel"),
+          role: 'cancel',
+          handler: () => {
+            
+          },
+        },
+        {
+          text: this.translateService.instant("common.share"),
+          role: 'confirm',
+          handler: (args) => {
+            console.log('ok handler optionIncludeNestedChecked', optionIncludeNestedChecked);
+          },
+        },
+      ],
+      inputs: [
+        {
+          id: 'cb',
+          name: 'cb',
+          type: 'checkbox',
+          label: this.translateService.instant("pageChecklist.internal.shareChecklistAlert.includeNestedChecked"),
+          handler: (args) => {
+            optionIncludeNestedChecked = args.checked;
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  })
+), {dispatch: false});
 shareTarget$ = createEffect(() => this.actions$.pipe(
   ofType(ECheckListActions.ShareTarget),
   withLatestFrom(this.store.select(selectTargetId), this.store.select(selectIsHideCompletedTasks)),

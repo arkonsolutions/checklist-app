@@ -19,7 +19,7 @@ import {
   switchTargetTo,
   toggleItemIsDone,
   replicateTarget,
-  shareTarget,
+  shareTargetOptions,
 } from '../../store/check-lists.actions';
 import {
   selectIsChildrenLoadingForTarget,
@@ -184,6 +184,6 @@ export class ListPageComponent extends PageComponent implements OnInit, OnDestro
   }
 
   public onShareClick() {
-    this.store.dispatch(shareTarget());
+    this.store.dispatch(shareTargetOptions());
   }
 }

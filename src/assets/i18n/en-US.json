@@ -12,7 +12,12 @@
             "createChecklist": "Create a Checklist",
             "createTemplate": "Create a Template",
             "newTemplateCreated": "A new Template has been created \"{{title}}\".",
-            "newChecklistCreated": "A new Checklist has been created \"{{title}}\"."
+            "newChecklistCreated": "A new Checklist has been created \"{{title}}\".",
+            "shareChecklistAlert": {
+                "title": "Share the checklist...",
+                "message": "Only the first level subtasks of this checklist will be included. To send all of its nested subtasks, check the checkbox.",
+                "includeNestedChecked": "Sub-tasks at all levels"
+            }
         },
         "btnAdd": "Add",
         "btnAddSubtask": "Add Subtask",
@@ -76,6 +81,7 @@
         "ok": "OK",
         "yes": "Yes",
         "no": "No",
+        "share": "Share",
         "validationRequiredField": "Required field."
     },
     "app": {
@@ -90,7 +96,6 @@
     "sync": {
         "confirmExport": "A snapshot of the database will be created and exported to a json file format. Continue?",
         "confirmShare": "The database snapshot has been created successfully! Would you like to share it?",
-        "share": "Share",
         "specifyFileLocation": "Specify the location of the data snapshot file. The data from it will be imported.",
         "importSuccsessfuly": "Data has been successfully imported"
     }
