@@ -71,7 +71,7 @@ export class CheckListDBService extends CheckListService {
     );
   }
 
-  public getItemWithChildrenTree(id: string, skipDone: boolean = false): Observable<ICheckListItem[]> {
+  public getItemWithChildrenTree(id: string, skipDone: boolean = false, nestingLevel?: number): Observable<ICheckListItem[]> {
     return this.dbService.isDbReady.pipe(
       switchMap(async (isReady) => {
         if (!isReady) {
@@ -79,15 +79,22 @@ export class CheckListDBService extends CheckListService {
         } else {
           const doneCondition = skipDone ? "and isDone = 0" : "";
           const idCondition = !!id ? 'id = ?' : 'parentId IS NULL';
+          //Root level items nestingLevel shift minus 1 level, because root level element is virtual non stored in db.
+          if (!id && nestingLevel != null) {
+            nestingLevel -= 1;
+          }
+          const lvlStatement = nestingLevel != null ? `
+          WHERE lvl <= ${nestingLevel}`
+          : '';
           const statement = `
-            WITH RECURSIVE children_tree(id, parentId)
+            WITH RECURSIVE children_tree(id, parentId, lvl)
             AS (
-                SELECT id, parentId from [CheckList_Aggregated] where ${idCondition} ${doneCondition}
+                SELECT id, parentId, 0 as lvl from [CheckList_Aggregated] where ${idCondition} ${doneCondition}
                 UNION ALL
-                SELECT cla.id, cla.parentId FROM [CheckList_Aggregated] AS cla INNER JOIN children_tree ct ON ct.id = cla.parentId
+                SELECT cla.id, cla.parentId, ct.lvl + 1 FROM [CheckList_Aggregated] AS cla INNER JOIN children_tree ct ON ct.id = cla.parentId
             )
-            SELECT cla.* FROM children_tree AS ct
-            LEFT JOIN [CheckList_Aggregated] AS cla USING (id)`;
+            SELECT cla.*, ct.lvl FROM children_tree AS ct
+            LEFT JOIN [CheckList_Aggregated] AS cla USING (id)${lvlStatement}`;
           return await this.dbService.executeSql({statement, args:[...(!!id ? [String(id)] : [])]});
         }
       }),

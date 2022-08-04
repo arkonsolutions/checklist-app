@@ -273,7 +273,8 @@ export const shareTargetOptions = createAction(
   ECheckListActions.ShareTargetOptions
 );
 export const shareTarget = createAction(
-  ECheckListActions.ShareTarget
+  ECheckListActions.ShareTarget,
+  props<{ includeNestedChecked: boolean }>()
 );
 export const shareTargetLoadGraphSuccess = createAction(
   ECheckListActions.ShareTargetLoadGraphSuccess,

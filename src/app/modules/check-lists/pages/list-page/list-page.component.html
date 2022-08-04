@@ -50,7 +50,7 @@
   <ion-list lines="full" *ngIf="!!target.id">
     <ion-item class="end-item-holder">
       <ion-label slot="start">{{target.title}}</ion-label>
-      <ion-item slot="end" (click)="toggleChecked($event, target.id)">
+      <ion-item slot="end" lines="none" (click)="toggleChecked($event, target.id)">
         <ion-checkbox
           *ngIf="!target.isTemplate" 
           [checked]="target.isDone" 
@@ -95,7 +95,7 @@
         <!-- <ion-button (click)="navTo(itm.id)">
           <ion-icon name="arrow-forward-circle-outline"></ion-icon>
         </ion-button> -->
-        <ion-item button (click)="navTo(itm.id)">
+        <ion-item button lines="none" (click)="navTo(itm.id)">
           <ion-icon name="arrow-forward-circle-outline"></ion-icon>
         </ion-item>
         <ion-label>
@@ -106,7 +106,7 @@
             <h5 *ngIf="itm.childrenCount > 0">{{ 'pageChecklist.itmChildrenCount' | translate: {childrenDone: itm.childrenDone, childrenCount: itm.childrenCount } }}</h5>
           </ng-container>
         </ion-label>
-        <ion-item slot="end" (click)="toggleChecked($event, itm.id)">
+        <ion-item lines="none" slot="end" (click)="toggleChecked($event, itm.id)">
           <ion-checkbox
             *ngIf="!itm.isTemplate"
             [checked]="itm.isDone" 

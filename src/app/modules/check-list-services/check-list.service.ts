@@ -228,7 +228,8 @@ public humanizeChecklist(rootItemId: string, items: ICheckListItem[]): string {
 
   public abstract getItemWithChildrenTree(
     id: string,
-    skipDone: boolean
+    skipDone: boolean,
+    nestingLevel?: number
   ): Observable<ICheckListItem[]>
 
   public abstract setItemIsDone(

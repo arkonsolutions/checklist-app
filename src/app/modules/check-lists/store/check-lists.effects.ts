@@ -808,7 +808,6 @@ shareTargetOptions$ = createEffect(() => this.actions$.pipe(
           text: this.translateService.instant("common.share"),
           role: 'confirm',
           handler: (args) => {
-            console.log('ok handler optionIncludeNestedChecked', optionIncludeNestedChecked);
           },
         },
       ],
@@ -825,14 +824,20 @@ shareTargetOptions$ = createEffect(() => this.actions$.pipe(
       ]
     });
 
-    await alert.present();
+    await alert.present()
+    .then(() => alert.onDidDismiss())
+    .then((res) => {
+      if (res.role === 'confirm') {
+        this.store.dispatch(checkListActions.shareTarget({ includeNestedChecked: optionIncludeNestedChecked }));
+      }
+    });
   })
 ), {dispatch: false});
 shareTarget$ = createEffect(() => this.actions$.pipe(
   ofType(ECheckListActions.ShareTarget),
   withLatestFrom(this.store.select(selectTargetId), this.store.select(selectIsHideCompletedTasks)),
-  switchMap(([action, targetId, isHideCompletedTasks]) => {
-    return this.service.getItemWithChildrenTree(targetId, isHideCompletedTasks).pipe(
+  switchMap(([{includeNestedChecked}, targetId, isHideCompletedTasks]) => {
+    return this.service.getItemWithChildrenTree(targetId, isHideCompletedTasks, (includeNestedChecked ? null : 1)).pipe(
       tap((res) => {
         if (res.length === 0) {
           throw new Error(this.translateService.instant("common.itemNotFound"));

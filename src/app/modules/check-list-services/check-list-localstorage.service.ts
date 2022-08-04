@@ -57,7 +57,7 @@ export class CheckListLocalstorageService extends CheckListService {
     }));
   }
 
-  public getItemWithChildrenTree(id: string, skipDone: boolean = false): Observable<ICheckListItem[]> {
+  public getItemWithChildrenTree(id: string, skipDone: boolean = false, nestingLevel?: number): Observable<ICheckListItem[]> {
 
     let items = this.storage;
 
