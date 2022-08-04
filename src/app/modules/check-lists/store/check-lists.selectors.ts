@@ -62,11 +62,7 @@ export const selectTargetChildren = createSelector(
       (itm) => itm.parentId == targetId 
         && !!itm.id //exclude root
         && itm.isTemplate == isTemplateMode
-    ).sort((a, b) => {
-      let aCmpValue = !!a.isDoneDate ? new Date(a.isDoneDate).getTime() : Number.MAX_SAFE_INTEGER;
-      let bCmpValue = !!b.isDoneDate ? new Date(b.isDoneDate).getTime() : Number.MAX_SAFE_INTEGER;
-      return bCmpValue - aCmpValue;
-    })
+    )
 );
 export const selectIsChildrenLoadingForTarget = createSelector(
   selectTargetId,

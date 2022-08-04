@@ -46,16 +46,16 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-<ion-content [fullscreen]="true" *ngIf="(target$ | async) as target">
+<ion-content [fullscreen]="false" *ngIf="(target$ | async) as target">
   <ion-list lines="full" *ngIf="!!target.id">
     <ion-item>
-      <ion-label>{{target.title}}</ion-label>
-      <ion-checkbox
-        *ngIf="!target.isTemplate" 
-        [checked]="target.isDone" 
-        (click)="toggleChecked($event, target.id)"
+      <ion-label slot="start">{{target.title}}</ion-label>
+      <ion-checkbox slot="end" (click)="toggleChecked($event, target.id)"
+          *ngIf="!target.isTemplate" 
+          [checked]="target.isDone" 
       ></ion-checkbox>
     </ion-item>
+
     <ng-container *ngIf="!!config && config.isShowDetails">
       <ion-item *ngIf="target.description as description" color="light">
         <ion-text>{{description}}</ion-text>
@@ -88,26 +88,26 @@
           Подзадачи
         </ion-label>
       </ion-item-divider> -->
-      <ion-item class="sub-item" *ngFor="let itm of children; trackBy: trackByMethod">
-        <ion-button (click)="navTo(itm.id)" item-left>
+      
+      <ion-item *ngFor="let itm of children; trackBy: trackByMethod">
+        <!-- <ion-button (click)="navTo(itm.id)">
           <ion-icon name="arrow-forward-circle-outline"></ion-icon>
-        </ion-button>
-        <ion-item lines="none">
-          <ion-label>
-            <h2>{{ itm.title }}</h2>
-            <ng-container *ngIf="!itm.isTemplate">
-              <h4 *ngIf="itm.dueDate as dueDate">{{ 'pageChecklist.itmDueDate' | translate: {dueDate: itm.dueDate | date : dateFormat} }}</h4>
-              <h4 *ngIf="itm.isDone">{{ 'pageChecklist.itmDoneDate' | translate: {isDoneDate: itm.isDoneDate | date : dateFormat} }}</h4>
-              <h5 *ngIf="itm.childrenCount > 0">{{ 'pageChecklist.itmChildrenCount' | translate: {childrenDone: itm.childrenDone, childrenCount: itm.childrenCount } }}</h5>
-            </ng-container>
-          </ion-label>
-          <ion-checkbox item-right 
-            *ngIf="!itm.isTemplate"
-            [checked]="itm.isDone" 
-            (click)="toggleChecked($event, itm.id)"
-          ></ion-checkbox>
-        </ion-item>
+        </ion-button> -->
+        <ion-icon slot="start" (click)="navTo(itm.id)" name="arrow-forward-circle-outline"></ion-icon>
+        <ion-label>
+          <h2>{{ itm.title }}</h2>
+          <ng-container *ngIf="!itm.isTemplate">
+            <h4 *ngIf="itm.dueDate as dueDate">{{ 'pageChecklist.itmDueDate' | translate: {dueDate: itm.dueDate | date : dateFormat} }}</h4>
+            <h4 *ngIf="itm.isDone">{{ 'pageChecklist.itmDoneDate' | translate: {isDoneDate: itm.isDoneDate | date : dateFormat} }}</h4>
+            <h5 *ngIf="itm.childrenCount > 0">{{ 'pageChecklist.itmChildrenCount' | translate: {childrenDone: itm.childrenDone, childrenCount: itm.childrenCount } }}</h5>
+          </ng-container>
+        </ion-label>
+        <ion-checkbox slot="end" (click)="toggleChecked($event, itm.id)"
+          *ngIf="!itm.isTemplate"
+          [checked]="itm.isDone" 
+        ></ion-checkbox>
       </ion-item>
+
     </ion-list>
   </ng-container>
 </ion-content>

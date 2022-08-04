@@ -1,0 +1,18 @@
+:host ::ng-deep {
+    ion-checkbox {
+        position:relative;
+    }
+    ion-checkbox[slot=end] {
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+    }
+
+    ion-icon[slot=start] {
+        margin-inline-start: 0px;
+        margin-inline-end: 15px;
+    }
+      
+    ion-icon[slot=end] {
+        margin-inline-start: 0px;
+    }
+}
